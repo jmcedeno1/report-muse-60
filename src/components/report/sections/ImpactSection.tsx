@@ -1,5 +1,6 @@
 import { impactData } from "@/data/reportData";
 import { CollapsibleCard } from "../CollapsibleCard";
+import { BusinessModelAnimation } from "../BusinessModelAnimation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DollarSign, Leaf, Battery, AlertTriangle, CheckCircle } from "lucide-react";
@@ -36,29 +37,10 @@ export function ImpactSection() {
             </div>
           </div>
 
-          {/* Business Models */}
+          {/* Business Models with Animation */}
           <div>
             <p className="font-medium text-foreground mb-3">Emerging Business Models</p>
-            <div className="grid gap-3">
-              {impactData.economic.businessModels.map((model) => (
-                <div
-                  key={model.model}
-                  className="border border-border rounded-lg p-3"
-                >
-                  <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="font-medium text-foreground">{model.model}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-2">{model.description}</p>
-                  <div className="flex flex-wrap gap-1">
-                    {model.players.map((player) => (
-                      <Badge key={player} variant="outline" className="text-xs">
-                        {player}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <BusinessModelAnimation models={impactData.economic.businessModels} />
           </div>
 
           {/* Barriers */}
