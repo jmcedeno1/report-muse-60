@@ -55,10 +55,10 @@ const topApplicantsChart = patentData.trendAnalysis.topApplicants.slice(0, 6);
 const summaryMetrics = [
   { label: "Total Patents", value: patentData.overview.totalPatents, icon: FileText },
   { label: "Patent Families", value: "6", icon: Layers },
-  { label: "Filing Growth", value: "35% CAGR", icon: TrendingUp },
+  { label: "Filing Growth", value: "45% CAGR", icon: TrendingUp },
   { label: "Key Regions", value: "5", icon: Globe },
   { label: "Top Applicants", value: "8+", icon: Users },
-  { label: "Emerging Areas", value: "5", icon: Lightbulb },
+  { label: "Data Source", value: "Espacenet", icon: Lightbulb },
 ];
 
 export function PatentsSection() {
