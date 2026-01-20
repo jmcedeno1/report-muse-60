@@ -4,6 +4,7 @@ import { ExecutiveSummarySection } from "@/components/report/sections/ExecutiveS
 import { HowItWorksSection } from "@/components/report/sections/HowItWorksSection";
 import { TechnologySection } from "@/components/report/sections/TechnologySection";
 import { PatentsSection } from "@/components/report/sections/PatentsSection";
+import { ScientificPublicationsSection } from "@/components/report/sections/ScientificPublicationsSection";
 import { MarketSection } from "@/components/report/sections/MarketSection";
 import { PilotProjectsSection } from "@/components/report/sections/PilotProjectsSection";
 import { RegulatorySection } from "@/components/report/sections/RegulatorySection";
@@ -17,8 +18,8 @@ const Index = () => {
   useEffect(() => {
     const handleScroll = () => {
       const sections = [
-        "overview", "how-it-works", "technology", "patents", "market",
-        "pilots", "regulatory", "impact", "challenges", "references"
+        "overview", "how-it-works", "technology", "patents", "publications",
+        "market", "pilots", "regulatory", "impact", "challenges", "references"
       ];
 
       for (const sectionId of sections) {
@@ -50,6 +51,7 @@ const Index = () => {
           <HowItWorksSection />
           <TechnologySection />
           <PatentsSection />
+          <ScientificPublicationsSection />
           <MarketSection />
           <PilotProjectsSection />
           <RegulatorySection />
