@@ -121,12 +121,12 @@ export function MarketSection() {
           <FilterTabs
             options={categoryOptions}
             value={categoryFilter}
-            onChange={setCategoryFilter}
+            onChange={(value) => setCategoryFilter(value as PlayerCategory)}
           />
           <FilterTabs
             options={regionOptions}
             value={regionFilter}
-            onChange={setRegionFilter}
+            onChange={(value) => setRegionFilter(value as Region)}
           />
         </div>
 

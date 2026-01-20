@@ -102,7 +102,7 @@ export function HowItWorksSection() {
         <FilterTabs
           options={filterOptions}
           value={applicationFilter}
-          onChange={setApplicationFilter}
+          onChange={(value) => setApplicationFilter(value as ApplicationType)}
         />
       </div>
 

@@ -49,7 +49,7 @@ export function ReferencesSection() {
         <FilterTabs
           options={themeOptions}
           value={themeFilter}
-          onChange={setThemeFilter}
+          onChange={(value) => setThemeFilter(value as Theme)}
         />
       </div>
 
