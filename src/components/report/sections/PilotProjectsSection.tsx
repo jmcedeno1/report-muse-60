@@ -50,17 +50,17 @@ export function PilotProjectsSection() {
         <FilterTabs
           options={vehicleOptions}
           value={vehicleFilter}
-          onChange={setVehicleFilter}
+          onChange={(value) => setVehicleFilter(value as VehicleType)}
         />
         <FilterTabs
           options={regionOptions}
           value={regionFilter}
-          onChange={setRegionFilter}
+          onChange={(value) => setRegionFilter(value as Region)}
         />
         <FilterTabs
           options={applicationOptions}
           value={applicationFilter}
-          onChange={setApplicationFilter}
+          onChange={(value) => setApplicationFilter(value as Application)}
         />
       </div>
 
