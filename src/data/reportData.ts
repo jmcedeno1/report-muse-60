@@ -24,7 +24,7 @@ export const sections: Section[] = [
 
 export const executiveSummary = {
   title: "Bidirectional EV Charging: The Convergence of Electric Mobility and Grid Infrastructure",
-  summary: `Bidirectional electric vehicle (EV) charging represents a transformative shift in how we conceptualize electric vehicles—not merely as transportation assets, but as mobile energy storage systems capable of supporting grid stability, enabling renewable energy integration, and providing backup power during emergencies.
+  summary: `Bidirectional electric vehicle (EV) charging represents a transformative shift in how we conceptualize electric vehicles, not merely as transportation assets, but as mobile energy storage systems capable of supporting grid stability, enabling renewable energy integration, and providing backup power during emergencies.
 
 This technology enables power to flow both to and from EV batteries, supporting three primary use cases: Vehicle-to-Grid (V2G) for utility-scale grid services, Vehicle-to-Home (V2H) for residential backup power, and Vehicle-to-Load (V2L) for portable power applications.
 
