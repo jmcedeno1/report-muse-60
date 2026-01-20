@@ -3,104 +3,109 @@
 @tailwind utilities;
 
 /* EMRC (Electric Mobility Research Center) - LUT University Branding
-   Deep Violet/Purple theme with professional clean aesthetic
+   Color Palette: #414A7F (deep), #8193FD (vibrant), #A1AFFF (light)
    All colors in HSL format
 */
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 260 20% 10%;
+    --foreground: 231 32% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 260 20% 10%;
+    --card-foreground: 231 32% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 260 20% 10%;
+    --popover-foreground: 231 32% 20%;
 
-    /* EMRC Deep Violet Primary - #4B2E83 converted to HSL */
-    --primary: 262 48% 35%;
+    /* Primary - #414A7F (Deep Blue-Purple) HSL: 231 32% 38% */
+    --primary: 231 32% 38%;
     --primary-foreground: 0 0% 100%;
 
-    /* Light violet for secondary elements */
-    --secondary: 262 30% 95%;
-    --secondary-foreground: 262 48% 35%;
+    /* Secondary - Light tint of palette */
+    --secondary: 231 100% 96%;
+    --secondary-foreground: 231 32% 38%;
 
-    /* Muted violet-gray tones */
-    --muted: 262 15% 94%;
-    --muted-foreground: 260 10% 45%;
+    /* Muted tones */
+    --muted: 231 30% 94%;
+    --muted-foreground: 231 20% 45%;
 
-    /* Accent - Vibrant Indigo #5E33BF */
-    --accent: 262 57% 47%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent - #8193FD (Vibrant Blue-Purple) HSL: 231 96% 75% */
+    --accent: 231 96% 75%;
+    --accent-foreground: 231 32% 20%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 262 20% 88%;
-    --input: 262 20% 88%;
-    --ring: 262 48% 35%;
+    --border: 231 40% 88%;
+    --input: 231 40% 88%;
+    --ring: 231 32% 38%;
 
     --radius: 0.5rem;
 
-    /* Sidebar with subtle violet tint */
-    --sidebar-background: 262 20% 98%;
-    --sidebar-foreground: 260 20% 25%;
-    --sidebar-primary: 262 48% 35%;
+    /* Sidebar */
+    --sidebar-background: 231 50% 98%;
+    --sidebar-foreground: 231 32% 25%;
+    --sidebar-primary: 231 32% 38%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 262 25% 93%;
-    --sidebar-accent-foreground: 262 48% 35%;
-    --sidebar-border: 262 15% 90%;
-    --sidebar-ring: 262 57% 47%;
+    --sidebar-accent: 231 100% 96%;
+    --sidebar-accent-foreground: 231 32% 38%;
+    --sidebar-border: 231 30% 90%;
+    --sidebar-ring: 231 96% 75%;
 
-    /* EMRC Brand Colors */
-    --emrc-violet: 262 48% 35%;
-    --emrc-indigo: 262 57% 47%;
-    --emrc-light: 262 30% 95%;
+    /* EMRC Brand Colors
+       --emrc-deep: #414A7F (231 32% 38%)
+       --emrc-vibrant: #8193FD (231 96% 75%)
+       --emrc-light: #A1AFFF (231 100% 82%)
+    */
+    --emrc-deep: 231 32% 38%;
+    --emrc-vibrant: 231 96% 75%;
+    --emrc-light: 231 100% 82%;
   }
 
   .dark {
-    --background: 260 25% 8%;
-    --foreground: 260 10% 95%;
+    --background: 231 30% 8%;
+    --foreground: 231 20% 95%;
 
-    --card: 260 20% 12%;
-    --card-foreground: 260 10% 95%;
+    --card: 231 25% 12%;
+    --card-foreground: 231 20% 95%;
 
-    --popover: 260 20% 12%;
-    --popover-foreground: 260 10% 95%;
+    --popover: 231 25% 12%;
+    --popover-foreground: 231 20% 95%;
 
-    /* EMRC Violet - lighter for dark mode */
-    --primary: 262 60% 65%;
-    --primary-foreground: 260 25% 8%;
+    /* Primary - Lightened for dark mode */
+    --primary: 231 96% 75%;
+    --primary-foreground: 231 30% 8%;
 
-    --secondary: 262 25% 18%;
-    --secondary-foreground: 260 10% 95%;
+    --secondary: 231 30% 18%;
+    --secondary-foreground: 231 20% 95%;
 
-    --muted: 262 20% 18%;
-    --muted-foreground: 260 10% 65%;
+    --muted: 231 25% 18%;
+    --muted-foreground: 231 20% 65%;
 
-    --accent: 262 50% 55%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent - #A1AFFF for dark mode */
+    --accent: 231 100% 82%;
+    --accent-foreground: 231 30% 10%;
 
     --destructive: 0 62.8% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 262 20% 20%;
-    --input: 262 20% 20%;
-    --ring: 262 60% 65%;
+    --border: 231 25% 22%;
+    --input: 231 25% 22%;
+    --ring: 231 96% 75%;
 
-    --sidebar-background: 260 25% 10%;
-    --sidebar-foreground: 260 10% 90%;
-    --sidebar-primary: 262 60% 65%;
-    --sidebar-primary-foreground: 260 25% 8%;
-    --sidebar-accent: 262 20% 18%;
-    --sidebar-accent-foreground: 260 10% 90%;
-    --sidebar-border: 262 20% 18%;
-    --sidebar-ring: 262 50% 55%;
+    --sidebar-background: 231 30% 10%;
+    --sidebar-foreground: 231 20% 90%;
+    --sidebar-primary: 231 96% 75%;
+    --sidebar-primary-foreground: 231 30% 8%;
+    --sidebar-accent: 231 25% 18%;
+    --sidebar-accent-foreground: 231 20% 90%;
+    --sidebar-border: 231 25% 20%;
+    --sidebar-ring: 231 100% 82%;
 
-    --emrc-violet: 262 60% 65%;
-    --emrc-indigo: 262 50% 55%;
-    --emrc-light: 262 25% 18%;
+    --emrc-deep: 231 32% 50%;
+    --emrc-vibrant: 231 96% 75%;
+    --emrc-light: 231 100% 82%;
   }
 }
 
