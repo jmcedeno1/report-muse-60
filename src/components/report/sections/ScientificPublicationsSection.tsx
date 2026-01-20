@@ -30,14 +30,16 @@ import {
   Area
 } from "recharts";
 
-type ThemeFilter = "all" | "Technology" | "Economics" | "Environment" | "Regulation";
+type ThemeFilter = "all" | "Technology" | "Grid Integration" | "Battery & BMS" | "AI & Optimization" | "Economics" | "Wireless & WPT";
 
 const themeFilters = [
   { value: "all", label: "All Themes" },
   { value: "Technology", label: "Technology" },
+  { value: "Grid Integration", label: "Grid Integration" },
+  { value: "Battery & BMS", label: "Battery & BMS" },
+  { value: "AI & Optimization", label: "AI & Optimization" },
   { value: "Economics", label: "Economics" },
-  { value: "Environment", label: "Environment" },
-  { value: "Regulation", label: "Regulation" },
+  { value: "Wireless & WPT", label: "Wireless & WPT" },
 ];
 
 const CHART_COLORS = [
@@ -51,10 +53,10 @@ const CHART_COLORS = [
 const summaryMetrics = [
   { label: "Total Publications", value: scientificPublicationsData.overview.totalPublications, icon: FileText },
   { label: "Journal Articles", value: scientificPublicationsData.overview.journalArticles, icon: BookOpen },
-  { label: "Reviews", value: scientificPublicationsData.overview.conferenceProceedings, icon: Users },
+  { label: "Conference Papers", value: scientificPublicationsData.overview.conferenceProceedings, icon: Users },
   { label: "Publication Growth", value: scientificPublicationsData.overview.publicationGrowth, icon: TrendingUp },
-  { label: "Top Journals", value: "7", icon: Award },
-  { label: "Emerging Topics", value: "6", icon: Lightbulb },
+  { label: "Top Journals", value: "8", icon: Award },
+  { label: "Emerging Topics", value: "8", icon: Lightbulb },
 ];
 
 export function ScientificPublicationsSection() {
