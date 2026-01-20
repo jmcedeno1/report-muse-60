@@ -4,7 +4,7 @@ import { CollapsibleCard } from "@/components/report/CollapsibleCard";
 import { FilterTabs } from "@/components/report/FilterTabs";
 import { 
   BookOpen, TrendingUp, Users, Lightbulb, FileText, 
-  Globe, BarChart3, Award, Quote, Building
+  Globe, BarChart3, Award, Quote, Building, ExternalLink, Lock, Unlock
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,7 +30,7 @@ import {
   Area
 } from "recharts";
 
-type ThemeFilter = "all" | "Technology" | "Economics" | "Environment" | "Regulation" | "Social";
+type ThemeFilter = "all" | "Technology" | "Economics" | "Environment" | "Regulation";
 
 const themeFilters = [
   { value: "all", label: "All Themes" },
@@ -38,7 +38,6 @@ const themeFilters = [
   { value: "Economics", label: "Economics" },
   { value: "Environment", label: "Environment" },
   { value: "Regulation", label: "Regulation" },
-  { value: "Social", label: "Social" },
 ];
 
 const CHART_COLORS = [
@@ -52,10 +51,10 @@ const CHART_COLORS = [
 const summaryMetrics = [
   { label: "Total Publications", value: scientificPublicationsData.overview.totalPublications, icon: FileText },
   { label: "Journal Articles", value: scientificPublicationsData.overview.journalArticles, icon: BookOpen },
-  { label: "Conference Papers", value: scientificPublicationsData.overview.conferenceProceedings, icon: Users },
+  { label: "Reviews", value: scientificPublicationsData.overview.conferenceProceedings, icon: Users },
   { label: "Publication Growth", value: scientificPublicationsData.overview.publicationGrowth, icon: TrendingUp },
   { label: "Top Journals", value: "7", icon: Award },
-  { label: "Emerging Topics", value: "5+", icon: Lightbulb },
+  { label: "Emerging Topics", value: "6", icon: Lightbulb },
 ];
 
 export function ScientificPublicationsSection() {
@@ -262,14 +261,40 @@ export function ScientificPublicationsSection() {
                     <Badge variant="secondary" className="text-xs">
                       {publication.theme}
                     </Badge>
-                    <Badge variant="default" className="text-xs">
-                      <Quote className="h-3 w-3 mr-1" />
-                      {publication.citations.toLocaleString()} citations
-                    </Badge>
+                    {publication.citations > 0 && (
+                      <Badge variant="default" className="text-xs">
+                        <Quote className="h-3 w-3 mr-1" />
+                        {publication.citations.toLocaleString()} citations
+                      </Badge>
+                    )}
+                    {"openAccess" in publication && (
+                      <Badge 
+                        variant={publication.openAccess !== "Subscription" ? "default" : "outline"} 
+                        className="text-xs"
+                      >
+                        {publication.openAccess !== "Subscription" ? (
+                          <Unlock className="h-3 w-3 mr-1" />
+                        ) : (
+                          <Lock className="h-3 w-3 mr-1" />
+                        )}
+                        {publication.openAccess !== "Subscription" ? "Open Access" : "Subscription"}
+                      </Badge>
+                    )}
                   </div>
-                  <p className="text-sm text-muted-foreground italic">
+                  <p className="text-sm text-muted-foreground italic mb-2">
                     {publication.significance}
                   </p>
+                  {"doi" in publication && publication.doi && (
+                    <a 
+                      href={`https://doi.org/${publication.doi}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+                    >
+                      <ExternalLink className="h-3 w-3" />
+                      DOI: {publication.doi}
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
