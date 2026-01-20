@@ -30,15 +30,15 @@ import {
   Area
 } from "recharts";
 
-type ThemeFilter = "all" | "Technology" | "Economics" | "Environment" | "Regulation" | "Social";
+type ThemeFilter = "all" | "Technology" | "Economics" | "Environment" | "Grid Integration" | "Policy";
 
 const themeFilters = [
   { value: "all", label: "All Themes" },
   { value: "Technology", label: "Technology" },
-  { value: "Economics", label: "Economics" },
+  { value: "Grid Integration", label: "Grid Integration" },
   { value: "Environment", label: "Environment" },
-  { value: "Regulation", label: "Regulation" },
-  { value: "Social", label: "Social" },
+  { value: "Economics", label: "Economics" },
+  { value: "Policy", label: "Policy" },
 ];
 
 const CHART_COLORS = [

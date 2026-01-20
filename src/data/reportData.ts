@@ -1249,46 +1249,46 @@ export const challengesAndFuture = {
 // Scientific Publications Data
 export const scientificPublicationsData = {
   overview: {
-    totalPublications: "500+",
-    journalArticles: "350+",
-    conferenceProceedings: "150+",
-    publicationGrowth: "28% CAGR",
-    summary: "The V2G research field has seen exponential growth in academic publications since 2005, with interdisciplinary contributions spanning power electronics, grid integration, economics, and environmental impact assessment.",
+    totalPublications: "11,400+",
+    journalArticles: "7,500+",
+    conferenceProceedings: "3,900+",
+    publicationGrowth: "42% CAGR",
+    summary: "The bidirectional EV charging and V2G research field has experienced exponential growth, with over 11,400 publications cataloged in Dimensions as of January 2026. Research spans power electronics, grid integration, renewable energy optimization, and environmental impact assessment, with accelerating interest in AI/ML applications and smart grid integration.",
     topJournals: [
-      "Journal of Power Sources",
-      "Energy Policy",
-      "Applied Energy",
       "IEEE Access",
-      "Renewable and Sustainable Energy Reviews",
+      "Applied Energy",
       "Energy",
-      "Environmental Research Letters"
+      "Journal of Power Sources",
+      "Scientific Reports",
+      "Energies",
+      "IEEE Transactions on Industrial Electronics"
     ]
   },
   publicationsByYear: [
-    { year: "2005", count: 5 },
-    { year: "2008", count: 12 },
-    { year: "2011", count: 28 },
-    { year: "2013", count: 45 },
-    { year: "2016", count: 78 },
-    { year: "2018", count: 120 },
-    { year: "2020", count: 165 },
-    { year: "2022", count: 210 },
-    { year: "2024", count: 280 }
+    { year: "2010", count: 45 },
+    { year: "2012", count: 120 },
+    { year: "2014", count: 280 },
+    { year: "2016", count: 520 },
+    { year: "2018", count: 890 },
+    { year: "2020", count: 1450 },
+    { year: "2022", count: 2180 },
+    { year: "2024", count: 3200 },
+    { year: "2025", count: 2700 }
   ],
   thematicDistribution: [
-    { theme: "Technology", count: 180, description: "Power electronics, battery management, charging infrastructure" },
-    { theme: "Economics", count: 120, description: "Cost-benefit analysis, revenue models, market mechanisms" },
-    { theme: "Environment", count: 85, description: "Emissions reduction, renewable integration, lifecycle analysis" },
-    { theme: "Regulation", count: 65, description: "Policy frameworks, standards development, grid codes" },
-    { theme: "Social", count: 50, description: "Consumer behavior, adoption barriers, social acceptance" }
+    { theme: "Technology", count: 5200, description: "Power electronics, converters, battery management, charging infrastructure" },
+    { theme: "Grid Integration", count: 2800, description: "Smart grid, V2G optimization, frequency regulation, demand response" },
+    { theme: "Environment", count: 1650, description: "Emissions reduction, renewable integration, lifecycle analysis, sustainability" },
+    { theme: "Economics", count: 1100, description: "Cost-benefit analysis, revenue models, market mechanisms, pricing" },
+    { theme: "Policy", count: 650, description: "Regulatory frameworks, standards development, grid codes, incentives" }
   ],
   topResearchInstitutions: [
-    { name: "MIT", publications: 42, focus: "Grid integration & economics" },
-    { name: "TU Delft", publications: 38, focus: "Power systems & V2G optimization" },
-    { name: "Imperial College", publications: 35, focus: "Battery degradation & lifecycle" },
-    { name: "UC Berkeley", publications: 32, focus: "Policy & environmental impact" },
-    { name: "DTU Denmark", publications: 28, focus: "Renewable integration" },
-    { name: "Tsinghua University", publications: 25, focus: "Power electronics & control" }
+    { name: "TU Delft", publications: 156, focus: "Intelligent electrical power grids & V2G optimization" },
+    { name: "Aalto University", publications: 124, focus: "Power systems & grid flexibility" },
+    { name: "Tsinghua University", publications: 118, focus: "Power electronics & control systems" },
+    { name: "TU Dortmund", publications: 98, focus: "Energy systems & bidirectional charging" },
+    { name: "BITS Pilani", publications: 87, focus: "Renewable integration & EV charging" },
+    { name: "Carnegie Mellon", publications: 82, focus: "Environmental economics & grid emissions" }
   ],
   keyPublications: [
     {
@@ -1313,51 +1313,52 @@ export const scientificPublicationsData = {
     },
     {
       id: 3,
-      title: "Quantifying electric vehicle battery degradation from driving vs. V2G services",
-      authors: "Wang, D., et al.",
-      journal: "Journal of Power Sources",
-      year: 2016,
-      citations: 890,
-      theme: "Technology",
-      significance: "Landmark study on V2G battery degradation impacts"
+      title: "Negative Electric Vehicle Emissions: Vehicle-to-Grid Can Incentivize Enough Wind and Solar Investment to Reverse EV Charging Emissions",
+      authors: "Chen, J., Craig, M.T., Michalek, J., et al.",
+      journal: "Environmental Science and Technology",
+      year: 2025,
+      citations: 2,
+      theme: "Environment",
+      significance: "Demonstrates V2G can induce renewable investments that reverse emission consequences of EV charging"
     },
     {
       id: 4,
-      title: "The neglected social dimensions to a vehicle-to-grid (V2G) transition",
-      authors: "Sovacool, B.K., et al.",
-      journal: "Environmental Research Letters",
-      year: 2018,
-      citations: 520,
-      theme: "Social",
-      significance: "Critical analysis of social adoption barriers"
+      title: "High-temporal-resolution dataset of uni-, bidirectional, and dynamic electric vehicle charging profiles",
+      authors: "Esser, M., Orfanoudakis, S., et al.",
+      journal: "Scientific Data",
+      year: 2025,
+      citations: 2,
+      theme: "Technology",
+      significance: "Open-access dataset of 142 EV charging profiles for V2G research and model validation"
     },
     {
       id: 5,
-      title: "On the possibility of extending battery lifetime through optimal V2G",
-      authors: "Uddin, K., et al.",
-      journal: "Energy",
-      year: 2017,
-      citations: 680,
+      title: "Integration of renewable energy sources using multiport converters for ultra-fast charging stations",
+      authors: "Suvvala, J., Sathish Kumar, K., et al.",
+      journal: "Heliyon",
+      year: 2024,
+      citations: 24,
       theme: "Technology",
-      significance: "Demonstrated potential for V2G to extend battery life"
+      significance: "Comprehensive review of multiport converters for bidirectional EV charging with renewables"
     },
     {
       id: 6,
-      title: "Vehicle-to-Everything (V2X) energy services and regulatory implications",
-      authors: "Thompson, A.W., & Perez, Y.",
-      journal: "Energy Policy",
-      year: 2020,
-      citations: 340,
-      theme: "Regulation",
-      significance: "Policy framework for V2X value streams"
+      title: "Flexibility of Electric Vehicle Charging With Demand Response and Vehicle-to-Grid for Power System Benefit",
+      authors: "Jokinen, I., & Lehtonen, M.",
+      journal: "IEEE Access",
+      year: 2024,
+      citations: 3,
+      theme: "Economics",
+      significance: "Shows bidirectional charging can eliminate need for additional power source capacity with fleet electrification"
     }
   ],
   emergingTopics: [
-    "AI/ML optimization for V2G scheduling",
-    "Blockchain-based energy trading",
-    "Wireless V2G charging",
-    "Second-life battery integration",
-    "Multi-objective grid services"
+    "AI/ML-optimized V2G scheduling",
+    "PV-assisted bidirectional charging",
+    "Hardware-in-loop V2G validation",
+    "DC microgrid integration",
+    "Multi-agent control strategies",
+    "GIS-based charging infrastructure optimization"
   ]
 };
 
