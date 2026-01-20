@@ -57,14 +57,22 @@ export function ReportNavigation({ activeSection, onSectionChange }: ReportNavig
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="p-6">
-          <h2 className="text-lg font-semibold text-foreground mb-2">
+        {/* EMRC Branding Header */}
+        <div className="p-6 border-b border-border">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-1 h-8 bg-primary rounded-full" />
+            <div>
+              <p className="text-xs font-semibold text-primary tracking-wider uppercase">EMRC</p>
+              <p className="text-[10px] text-muted-foreground">Electric Mobility Research Center</p>
+            </div>
+          </div>
+          <h2 className="text-base font-semibold text-foreground leading-tight">
             EV Bidirectional Charging
           </h2>
-          <p className="text-sm text-muted-foreground mb-6">Interactive Report</p>
+          <p className="text-xs text-muted-foreground mt-1">Interactive Report</p>
         </div>
 
-        <div className="px-3 pb-6 space-y-1 overflow-y-auto max-h-[calc(100vh-140px)]">
+        <div className="px-3 py-4 space-y-1 overflow-y-auto max-h-[calc(100vh-180px)]">
           {sections.map((section) => {
             const Icon = iconMap[section.icon];
             return (

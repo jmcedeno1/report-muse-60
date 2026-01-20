@@ -58,9 +58,20 @@ const Index = () => {
           <ReferencesSection />
         </div>
 
-        <footer className="mt-16 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>Interactive Report on EV Bidirectional Charging</p>
-          <p className="mt-1">Data synthesized from uploaded research documents</p>
+        <footer className="mt-16 pt-8 border-t border-border">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-1 h-10 bg-primary rounded-full" />
+              <div>
+                <p className="text-sm font-semibold text-foreground">EMRC</p>
+                <p className="text-xs text-muted-foreground">Electric Mobility Research Center</p>
+              </div>
+            </div>
+            <div className="text-sm text-muted-foreground">
+              <p>Interactive Report on EV Bidirectional Charging</p>
+              <p className="text-xs mt-1">Data synthesized from research documents • LUT University</p>
+            </div>
+          </div>
         </footer>
       </main>
     </div>
