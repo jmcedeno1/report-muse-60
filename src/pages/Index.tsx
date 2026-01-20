@@ -11,17 +11,11 @@ import { RegulatorySection } from "@/components/report/sections/RegulatorySectio
 import { ImpactSection } from "@/components/report/sections/ImpactSection";
 import { ChallengesSection } from "@/components/report/sections/ChallengesSection";
 import { ReferencesSection } from "@/components/report/sections/ReferencesSection";
-
 const Index = () => {
   const [activeSection, setActiveSection] = useState("overview");
-
   useEffect(() => {
     const handleScroll = () => {
-      const sections = [
-        "overview", "how-it-works", "technology", "patents", "publications",
-        "market", "pilots", "regulatory", "impact", "challenges", "references"
-      ];
-
+      const sections = ["overview", "how-it-works", "technology", "patents", "publications", "market", "pilots", "regulatory", "impact", "challenges", "references"];
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -33,17 +27,11 @@ const Index = () => {
         }
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  return (
-    <div className="min-h-screen bg-background">
-      <ReportNavigation
-        activeSection={activeSection}
-        onSectionChange={setActiveSection}
-      />
+  return <div className="min-h-screen bg-background">
+      <ReportNavigation activeSection={activeSection} onSectionChange={setActiveSection} />
 
       <main className="lg:ml-64 p-6 md:p-8 lg:p-12 max-w-5xl">
         <div className="space-y-16">
@@ -71,13 +59,11 @@ const Index = () => {
             </div>
             <div className="text-sm text-muted-foreground">
               <p>Interactive Report on EV Bidirectional Charging</p>
-              <p className="text-xs mt-1">Data synthesized from research documents • LUT University</p>
+              <p className="text-xs mt-1">LUT University</p>
             </div>
           </div>
         </footer>
       </main>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
