@@ -3,6 +3,7 @@ import { ReportNavigation } from "@/components/report/ReportNavigation";
 import { ExecutiveSummarySection } from "@/components/report/sections/ExecutiveSummarySection";
 import { HowItWorksSection } from "@/components/report/sections/HowItWorksSection";
 import { TechnologySection } from "@/components/report/sections/TechnologySection";
+import { PatentsSection } from "@/components/report/sections/PatentsSection";
 import { MarketSection } from "@/components/report/sections/MarketSection";
 import { PilotProjectsSection } from "@/components/report/sections/PilotProjectsSection";
 import { RegulatorySection } from "@/components/report/sections/RegulatorySection";
@@ -16,7 +17,7 @@ const Index = () => {
   useEffect(() => {
     const handleScroll = () => {
       const sections = [
-        "overview", "how-it-works", "technology", "market",
+        "overview", "how-it-works", "technology", "patents", "market",
         "pilots", "regulatory", "impact", "challenges", "references"
       ];
 
@@ -48,6 +49,7 @@ const Index = () => {
           <ExecutiveSummarySection />
           <HowItWorksSection />
           <TechnologySection />
+          <PatentsSection />
           <MarketSection />
           <PilotProjectsSection />
           <RegulatorySection />

@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { sections } from "@/data/reportData";
 import { 
   FileText, Zap, Cpu, TrendingUp, MapPin, 
-  Scale, Leaf, AlertTriangle, BookOpen, Menu, X 
+  Scale, Leaf, AlertTriangle, BookOpen, Menu, X, Shield 
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -17,6 +17,7 @@ const iconMap: Record<string, React.ElementType> = {
   Leaf,
   AlertTriangle,
   BookOpen,
+  Shield,
 };
 
 interface ReportNavigationProps {
