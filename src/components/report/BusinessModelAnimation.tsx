@@ -105,9 +105,6 @@ export function BusinessModelAnimation({ models }: BusinessModelAnimationProps) 
               <div className="p-5 md:p-6 rounded-2xl bg-card border-2 border-primary shadow-xl">
                 <IconComponent className="h-10 w-10 md:h-12 md:w-12 text-primary" />
               </div>
-              {/* Animated rings */}
-              <div className="absolute inset-0 rounded-2xl border-2 border-primary/20 animate-ping" style={{ animationDuration: '2s' }} />
-              <div className="absolute -inset-2 rounded-3xl border border-primary/10 animate-pulse" style={{ animationDuration: '3s' }} />
             </div>
             <h3 className="text-base md:text-lg font-bold text-foreground mb-2">{currentModel.model}</h3>
             <p className="text-xs text-muted-foreground mb-3 px-2">{currentModel.description}</p>
