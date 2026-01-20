@@ -4,6 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Globe, AlertCircle } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export function RegulatorySection() {
   return (
@@ -74,18 +80,27 @@ export function RegulatorySection() {
           <CardTitle className="text-lg">Standards Development Progress</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {regulatoryFramework.standardsProgress.map((item) => (
-              <div key={item.standard}>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="font-medium text-foreground text-sm">{item.standard}</span>
-                  <span className="text-sm text-muted-foreground">{item.progress}%</span>
-                </div>
-                <Progress value={item.progress} className="h-2 mb-1" />
-                <p className="text-xs text-muted-foreground">{item.status}</p>
-              </div>
-            ))}
-          </div>
+          <TooltipProvider delayDuration={200}>
+            <div className="space-y-4">
+              {regulatoryFramework.standardsProgress.map((item) => (
+                <Tooltip key={item.standard}>
+                  <TooltipTrigger asChild>
+                    <div className="cursor-pointer hover:bg-muted/50 rounded-md p-2 -mx-2 transition-colors">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-medium text-foreground text-sm">{item.standard}</span>
+                        <span className="text-sm text-muted-foreground">{item.progress}%</span>
+                      </div>
+                      <Progress value={item.progress} className="h-2 mb-1" />
+                      <p className="text-xs text-muted-foreground">{item.status}</p>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent side="right" className="max-w-xs">
+                    <p className="text-sm">{item.description}</p>
+                  </TooltipContent>
+                </Tooltip>
+              ))}
+            </div>
+          </TooltipProvider>
         </CardContent>
       </Card>
     </section>
