@@ -42,7 +42,7 @@ export const howItWorks = {
     title: "Basic Principles of Bidirectional Charging",
     content: `Bidirectional charging fundamentally transforms how energy flows between an EV and external loads. Unlike conventional unidirectional charging, which only transfers power from the grid to the vehicle battery, bidirectional systems enable reverse power flow—allowing the EV to supply electricity back to the grid, a building, or other loads.
 
-At the core of this technology is a bidirectional power converter, capable of operating in two modes:
+At the core of this technology is a bidirectional power converter, capable of operating in two modes:                                
 - Charging Mode (Grid-to-Vehicle): AC power from the grid is converted to DC to charge the battery
 - Discharging Mode (Vehicle-to-Grid/Home/Load): DC power from the battery is converted to AC for external use.
 
