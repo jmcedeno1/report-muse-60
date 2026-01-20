@@ -1,10 +1,14 @@
 import { executiveSummary } from "@/data/reportData";
 import { StatCard } from "../StatCard";
+import { BidirectionalAnimation } from "../BidirectionalAnimation";
 import { Zap } from "lucide-react";
 
 export function ExecutiveSummarySection() {
   return (
     <section id="overview" className="scroll-mt-8">
+      {/* Bidirectional Charging Animation */}
+      <BidirectionalAnimation />
+
       {/* EMRC Header Banner */}
       <div className="mb-8 p-6 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border-l-4 border-primary">
         <div className="flex items-center gap-3 mb-2">

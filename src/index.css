@@ -118,3 +118,48 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Bidirectional charging animation keyframes */
+@keyframes v2h-flow {
+  0% {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+}
+
+@keyframes v2g-flow {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .animate-v2h-flow {
+    animation: v2h-flow 3s ease-in-out infinite;
+  }
+  
+  .animate-v2g-flow {
+    animation: v2g-flow 3s ease-in-out infinite;
+  }
+}
