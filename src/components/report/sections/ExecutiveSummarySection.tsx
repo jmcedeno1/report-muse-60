@@ -29,8 +29,8 @@ export function ExecutiveSummarySection() {
       </div>
 
       <div className="prose prose-slate max-w-none mb-8">
-        {/* First three paragraphs */}
-        {paragraphs.slice(0, 3).map((paragraph, index) => (
+        {/* First two paragraphs */}
+        {paragraphs.slice(0, 2).map((paragraph, index) => (
           <p key={index} className="text-muted-foreground leading-relaxed mb-4">
             {paragraph}
           </p>
@@ -40,8 +40,8 @@ export function ExecutiveSummarySection() {
         <BidirectionalAnimation />
 
         {/* Remaining paragraphs */}
-        {paragraphs.slice(3).map((paragraph, index) => (
-          <p key={index + 3} className="text-muted-foreground leading-relaxed mb-4">
+        {paragraphs.slice(2).map((paragraph, index) => (
+          <p key={index + 2} className="text-muted-foreground leading-relaxed mb-4">
             {paragraph}
           </p>
         ))}
