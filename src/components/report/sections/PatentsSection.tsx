@@ -89,6 +89,10 @@ export function PatentsSection() {
           <CardTitle className="flex items-center gap-2 text-xl">
             <BarChart3 className="h-5 w-5 text-primary" />
             Patent Landscape Summary
+            <Badge variant="outline" className="ml-2 text-xs font-normal">
+              <Globe className="h-3 w-3 mr-1" />
+              Espacenet Database
+            </Badge>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
