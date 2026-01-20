@@ -2,9 +2,9 @@ import { useState } from "react";
 import { patentData } from "@/data/reportData";
 import { CollapsibleCard } from "@/components/report/CollapsibleCard";
 import { FilterTabs } from "@/components/report/FilterTabs";
-import { StatCard } from "@/components/report/StatCard";
-import { Shield, TrendingUp, Users, Lightbulb, Calendar } from "lucide-react";
+import { Shield, TrendingUp, Users, Lightbulb, Calendar, FileText, Globe, Layers, BarChart3 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -13,6 +13,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  Tooltip, 
+  ResponsiveContainer, 
+  PieChart, 
+  Pie, 
+  Cell, 
+  LineChart, 
+  Line,
+  Area,
+  AreaChart
+} from "recharts";
 
 type PatentFamily = "all" | "power-electronics" | "communication-protocols" | "grid-integration" | "battery-management" | "vehicle-home" | "charging-infrastructure";
 
@@ -24,6 +39,26 @@ const familyFilters = [
   { value: "battery-management", label: "Battery Management" },
   { value: "vehicle-home", label: "V2H/Building" },
   { value: "charging-infrastructure", label: "Infrastructure" },
+];
+
+const CHART_COLORS = ["hsl(var(--primary))", "hsl(var(--accent))", "hsl(var(--emrc-light))", "hsl(var(--muted-foreground))", "hsl(var(--secondary-foreground))", "hsl(var(--emrc-vibrant))"];
+
+// Prepare data for charts
+const familyDistribution = patentData.patentFamilies.map((family) => ({
+  name: family.name.split(" ")[0],
+  fullName: family.name,
+  count: parseInt(family.patentCount.replace("+", "")),
+}));
+
+const topApplicantsChart = patentData.trendAnalysis.topApplicants.slice(0, 6);
+
+const summaryMetrics = [
+  { label: "Total Patents", value: patentData.overview.totalPatents, icon: FileText },
+  { label: "Patent Families", value: "6", icon: Layers },
+  { label: "Filing Growth", value: "35% CAGR", icon: TrendingUp },
+  { label: "Key Regions", value: "5", icon: Globe },
+  { label: "Top Applicants", value: "8+", icon: Users },
+  { label: "Emerging Areas", value: "5", icon: Lightbulb },
 ];
 
 export function PatentsSection() {
@@ -48,25 +83,151 @@ export function PatentsSection() {
         {patentData.overview.summary}
       </p>
 
-      {/* Key Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <StatCard
-          label="Total Patents"
-          value={patentData.overview.totalPatents}
-        />
-        <StatCard
-          label="Filing Growth"
-          value={patentData.overview.growthRate}
-        />
-        <StatCard
-          label="Top Applicants"
-          value={patentData.trendAnalysis.topApplicants.length.toString()}
-        />
-        <StatCard
-          label="Emerging Areas"
-          value={patentData.trendAnalysis.emergingAreas.length.toString()}
-        />
-      </div>
+      {/* Summary Dashboard */}
+      <Card className="mb-8 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <BarChart3 className="h-5 w-5 text-primary" />
+            Patent Landscape Summary
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Key Metrics Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {summaryMetrics.map((metric) => {
+              const IconComponent = metric.icon;
+              return (
+                <div
+                  key={metric.label}
+                  className="bg-background rounded-lg p-4 text-center border border-border/50"
+                >
+                  <IconComponent className="h-6 w-6 mx-auto mb-2 text-primary" />
+                  <p className="text-2xl font-bold text-foreground">{metric.value}</p>
+                  <p className="text-xs text-muted-foreground">{metric.label}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Charts Row */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Filing Trend Area Chart */}
+            <div className="bg-background rounded-lg p-4 border border-border/50">
+              <h4 className="font-semibold text-sm mb-4 text-foreground">Patent Filings Over Time</h4>
+              <ResponsiveContainer width="100%" height={150}>
+                <AreaChart data={patentData.trendAnalysis.patentFilingsByYear}>
+                  <defs>
+                    <linearGradient id="patentGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4}/>
+                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <XAxis 
+                    dataKey="year" 
+                    tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis hide />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: "hsl(var(--background))",
+                      border: "1px solid hsl(var(--border))",
+                      borderRadius: "8px"
+                    }}
+                    formatter={(value: number) => [`${value} patents`, "Filings"]}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="count" 
+                    stroke="hsl(var(--primary))" 
+                    strokeWidth={2}
+                    fill="url(#patentGradient)" 
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Top Applicants Bar Chart */}
+            <div className="bg-background rounded-lg p-4 border border-border/50">
+              <h4 className="font-semibold text-sm mb-4 text-foreground">Top Patent Applicants</h4>
+              <ResponsiveContainer width="100%" height={150}>
+                <BarChart data={topApplicantsChart} layout="vertical">
+                  <XAxis type="number" hide />
+                  <YAxis 
+                    dataKey="name" 
+                    type="category" 
+                    width={60} 
+                    tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: "hsl(var(--background))",
+                      border: "1px solid hsl(var(--border))",
+                      borderRadius: "8px"
+                    }}
+                    formatter={(value: number) => [`${value} patents`, "Patents"]}
+                  />
+                  <Bar dataKey="patents" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Family Distribution Pie Chart */}
+            <div className="bg-background rounded-lg p-4 border border-border/50">
+              <h4 className="font-semibold text-sm mb-4 text-foreground">By Patent Family</h4>
+              <ResponsiveContainer width="100%" height={150}>
+                <PieChart>
+                  <Pie
+                    data={familyDistribution}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={35}
+                    outerRadius={55}
+                    dataKey="count"
+                    nameKey="name"
+                  >
+                    {familyDistribution.map((_, index) => (
+                      <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: "hsl(var(--background))",
+                      border: "1px solid hsl(var(--border))",
+                      borderRadius: "8px"
+                    }}
+                    formatter={(value: number, name: string, props: any) => [`${value}+ patents`, props.payload.fullName]}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="flex flex-wrap justify-center gap-2 text-xs mt-2">
+                {familyDistribution.slice(0, 3).map((item, i) => (
+                  <span key={item.name} className="flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS[i] }} />
+                    {item.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Key Regions */}
+          <div className="bg-background rounded-lg p-4 border border-border/50">
+            <h4 className="font-semibold text-sm mb-3 text-foreground">Key Patent Regions</h4>
+            <div className="flex flex-wrap gap-2">
+              {patentData.overview.keyRegions.map((region) => (
+                <Badge key={region} variant="secondary" className="text-sm">
+                  <Globe className="h-3 w-3 mr-1" />
+                  {region}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Patent Family Filter */}
       <div className="mb-6">
