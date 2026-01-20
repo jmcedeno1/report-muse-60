@@ -1019,11 +1019,14 @@ export const regulatoryFramework = {
     },
   ],
   standardsProgress: [
-    { standard: "ISO 15118-20", progress: 90, status: "Published, adoption in progress" },
-    { standard: "SAE J3072", progress: 85, status: "Published, implementation ongoing" },
-    { standard: "IEEE 1547-2018", progress: 95, status: "Widely adopted" },
-    { standard: "CHAdeMO 3.0", progress: 80, status: "Published, limited deployment" },
-    { standard: "CCS Bidirectional", progress: 60, status: "In development" },
+    { standard: "ISO 15118-20", progress: 90, status: "Published, adoption in progress", description: "International standard for vehicle-to-grid communication interface, including bidirectional power transfer and Plug & Charge functionality. Enables secure, automated communication between EVs and charging infrastructure." },
+    { standard: "IEC 61851-1", progress: 95, status: "Widely adopted", description: "General requirements for EV conductive charging systems. Defines charging modes (Mode 1-4), safety requirements, and electrical specifications for EV supply equipment (EVSE)." },
+    { standard: "IEC 61851-23", progress: 85, status: "Published, implementation ongoing", description: "DC EV charging station requirements. Specifies requirements for DC charging stations including bidirectional power flow, covering electrical safety, EMC, and communication protocols." },
+    { standard: "IEC 61851-24", progress: 75, status: "Published, limited deployment", description: "Digital communication between DC charging station and EV for control of DC charging. Defines CAN-based communication protocol for DC fast charging coordination." },
+    { standard: "SAE J3072", progress: 85, status: "Published, implementation ongoing", description: "Interconnection requirements for on-board, utility-interactive bidirectional chargers. Covers grid connection requirements, safety interlocks, and power quality for AC V2G systems." },
+    { standard: "IEEE 1547-2018", progress: 95, status: "Widely adopted", description: "Interconnection and interoperability of distributed energy resources with electric power systems. Defines requirements for grid synchronization, anti-islanding, voltage/frequency ride-through." },
+    { standard: "CHAdeMO 3.0", progress: 80, status: "Published, limited deployment", description: "DC fast charging protocol with native bidirectional support. Enables V2G, V2H, and V2L applications with power levels up to 400kW and built-in reverse power flow capability." },
+    { standard: "CCS Bidirectional", progress: 60, status: "In development", description: "Combined Charging System extension for bidirectional power transfer. Based on ISO 15118-20, adding V2G capabilities to the widely-deployed CCS connector standard." },
   ],
 };
 
