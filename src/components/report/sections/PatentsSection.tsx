@@ -41,7 +41,14 @@ const familyFilters = [
   { value: "charging-infrastructure", label: "Infrastructure" },
 ];
 
-const CHART_COLORS = ["hsl(var(--primary))", "hsl(var(--accent))", "hsl(var(--emrc-light))", "hsl(var(--muted-foreground))", "hsl(var(--secondary-foreground))", "hsl(var(--emrc-vibrant))"];
+const CHART_COLORS = [
+  "hsl(221, 83%, 53%)",   // Bright blue
+  "hsl(142, 71%, 45%)",   // Emerald green
+  "hsl(45, 93%, 47%)",    // Amber/gold
+  "hsl(280, 67%, 55%)",   // Purple
+  "hsl(0, 84%, 60%)",     // Red
+  "hsl(187, 85%, 43%)",   // Cyan/teal
+];
 
 // Prepare data for charts
 const familyDistribution = patentData.patentFamilies.map((family) => ({
