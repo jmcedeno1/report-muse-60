@@ -113,44 +113,80 @@ export function PatentsSection() {
             })}
           </div>
 
-          {/* Charts Row */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* Filing Trend Area Chart */}
-            <div className="bg-background rounded-lg p-4 border border-border/50">
-              <h4 className="font-semibold text-sm mb-4 text-foreground">Patent Filings Over Time</h4>
-              <ResponsiveContainer width="100%" height={150}>
-                <AreaChart data={patentData.trendAnalysis.patentFilingsByYear}>
-                  <defs>
-                    <linearGradient id="patentGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4}/>
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+          {/* Combined Patent Family Timeline Chart */}
+          <div className="bg-background rounded-lg p-4 border border-border/50">
+            <h4 className="font-semibold text-sm mb-4 text-foreground">Patent Filings by Family Over Time</h4>
+            <ResponsiveContainer width="100%" height={280}>
+              <AreaChart data={(() => {
+                // Merge all family timelines into a single dataset
+                const allYears = new Set<number>();
+                patentData.patentFamilies.forEach(f => f.timeline.forEach(t => allYears.add(t.year)));
+                const sortedYears = Array.from(allYears).sort((a, b) => a - b);
+                
+                return sortedYears.map(year => {
+                  const point: Record<string, number> = { year };
+                  patentData.patentFamilies.forEach(family => {
+                    const entry = family.timeline.find(t => t.year === year);
+                    point[family.id] = entry?.count || 0;
+                  });
+                  return point;
+                });
+              })()}>
+                <defs>
+                  {patentData.patentFamilies.map((family, index) => (
+                    <linearGradient key={family.id} id={`gradient-${family.id}`} x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor={CHART_COLORS[index % CHART_COLORS.length]} stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor={CHART_COLORS[index % CHART_COLORS.length]} stopOpacity={0}/>
                     </linearGradient>
-                  </defs>
-                  <XAxis 
-                    dataKey="year" 
-                    tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis hide />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: "hsl(var(--background))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: "8px"
-                    }}
-                    formatter={(value: number) => [`${value} patents`, "Filings"]}
-                  />
+                  ))}
+                </defs>
+                <XAxis 
+                  dataKey="year" 
+                  tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis 
+                  tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+                  axisLine={false}
+                  tickLine={false}
+                  width={35}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: "hsl(var(--background))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px"
+                  }}
+                  labelFormatter={(label) => `Year: ${label}`}
+                />
+                {patentData.patentFamilies.map((family, index) => (
                   <Area 
+                    key={family.id}
                     type="monotone" 
-                    dataKey="count" 
-                    stroke="hsl(var(--primary))" 
+                    dataKey={family.id}
+                    name={family.name.split(" ")[0]}
+                    stroke={CHART_COLORS[index % CHART_COLORS.length]} 
                     strokeWidth={2}
-                    fill="url(#patentGradient)" 
+                    fill={`url(#gradient-${family.id})`}
+                    stackId="1"
                   />
-                </AreaChart>
-              </ResponsiveContainer>
+                ))}
+              </AreaChart>
+            </ResponsiveContainer>
+            {/* Legend */}
+            <div className="flex flex-wrap justify-center gap-3 mt-4 text-xs">
+              {patentData.patentFamilies.map((family, index) => (
+                <span key={family.id} className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded-sm" style={{ backgroundColor: CHART_COLORS[index % CHART_COLORS.length] }} />
+                  {family.name.split(" ")[0]}
+                </span>
+              ))}
             </div>
+          </div>
+
+          {/* Charts Row */}
+          <div className="grid md:grid-cols-2 gap-6">
 
             {/* Top Applicants Bar Chart */}
             <div className="bg-background rounded-lg p-4 border border-border/50">
@@ -261,68 +297,6 @@ export function PatentsSection() {
                     <Badge key={holder} variant="secondary">
                       {holder}
                     </Badge>
-                  ))}
-                </div>
-              </div>
-
-              {/* Timeline Chart */}
-              <div>
-                <h4 className="text-sm font-medium text-foreground mb-3 flex items-center gap-2">
-                  <Calendar className="h-4 w-4" />
-                  Patent Filings Over Time
-                </h4>
-                <div className="bg-muted/30 rounded-lg p-4 border border-border/50">
-                  <ResponsiveContainer width="100%" height={180}>
-                    <AreaChart data={family.timeline}>
-                      <defs>
-                        <linearGradient id={`gradient-${family.id}`} x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4}/>
-                          <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <XAxis 
-                        dataKey="year" 
-                        tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
-                        axisLine={false}
-                        tickLine={false}
-                      />
-                      <YAxis 
-                        tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
-                        axisLine={false}
-                        tickLine={false}
-                        width={40}
-                      />
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: "hsl(var(--background))",
-                          border: "1px solid hsl(var(--border))",
-                          borderRadius: "8px"
-                        }}
-                        formatter={(value: number) => [`${value} patents`, "Cumulative"]}
-                        labelFormatter={(label) => `Year: ${label}`}
-                      />
-                      <Area 
-                        type="monotone" 
-                        dataKey="count" 
-                        stroke="hsl(var(--primary))" 
-                        strokeWidth={2}
-                        fill={`url(#gradient-${family.id})`} 
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
-                {/* Milestones */}
-                <div className="mt-4 space-y-2">
-                  {family.timeline.slice(-3).map((item, index) => (
-                    <div key={index} className="flex items-start justify-between gap-4 text-sm">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
-                        <span className="text-muted-foreground">{item.year}: {item.milestone}</span>
-                      </div>
-                      <Badge variant="outline" className="shrink-0">
-                        {item.count} patents
-                      </Badge>
-                    </div>
                   ))}
                 </div>
               </div>
