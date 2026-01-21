@@ -265,30 +265,65 @@ export function PatentsSection() {
                 </div>
               </div>
 
-              {/* Timeline */}
+              {/* Timeline Chart */}
               <div>
                 <h4 className="text-sm font-medium text-foreground mb-3 flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  Patent Progression Timeline
+                  Patent Filings Over Time
                 </h4>
-                <div className="relative">
-                  <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-border" />
-                  <div className="space-y-4 ml-6">
-                    {family.timeline.map((item, index) => (
-                      <div key={index} className="relative">
-                        <div className="absolute -left-[22px] top-1 w-3 h-3 rounded-full bg-primary border-2 border-background" />
-                        <div className="flex items-start justify-between gap-4">
-                          <div>
-                            <span className="text-sm font-medium text-foreground">{item.year}</span>
-                            <p className="text-sm text-muted-foreground">{item.milestone}</p>
-                          </div>
-                          <Badge variant="outline" className="shrink-0">
-                            {item.count} patents
-                          </Badge>
-                        </div>
+                <div className="bg-muted/30 rounded-lg p-4 border border-border/50">
+                  <ResponsiveContainer width="100%" height={180}>
+                    <AreaChart data={family.timeline}>
+                      <defs>
+                        <linearGradient id={`gradient-${family.id}`} x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4}/>
+                          <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <XAxis 
+                        dataKey="year" 
+                        tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+                        axisLine={false}
+                        tickLine={false}
+                      />
+                      <YAxis 
+                        tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+                        axisLine={false}
+                        tickLine={false}
+                        width={40}
+                      />
+                      <Tooltip 
+                        contentStyle={{ 
+                          backgroundColor: "hsl(var(--background))",
+                          border: "1px solid hsl(var(--border))",
+                          borderRadius: "8px"
+                        }}
+                        formatter={(value: number) => [`${value} patents`, "Cumulative"]}
+                        labelFormatter={(label) => `Year: ${label}`}
+                      />
+                      <Area 
+                        type="monotone" 
+                        dataKey="count" 
+                        stroke="hsl(var(--primary))" 
+                        strokeWidth={2}
+                        fill={`url(#gradient-${family.id})`} 
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+                {/* Milestones */}
+                <div className="mt-4 space-y-2">
+                  {family.timeline.slice(-3).map((item, index) => (
+                    <div key={index} className="flex items-start justify-between gap-4 text-sm">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
+                        <span className="text-muted-foreground">{item.year}: {item.milestone}</span>
                       </div>
-                    ))}
-                  </div>
+                      <Badge variant="outline" className="shrink-0">
+                        {item.count} patents
+                      </Badge>
+                    </div>
+                  ))}
                 </div>
               </div>
 
