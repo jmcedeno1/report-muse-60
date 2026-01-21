@@ -301,6 +301,33 @@ export function PatentsSection() {
                 </div>
               </div>
 
+              {/* Timeline */}
+              <div>
+                <h4 className="text-sm font-medium text-foreground mb-3 flex items-center gap-2">
+                  <Calendar className="h-4 w-4" />
+                  Patent Progression Timeline
+                </h4>
+                <div className="relative">
+                  <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-border" />
+                  <div className="space-y-4 ml-6">
+                    {family.timeline.map((item, index) => (
+                      <div key={index} className="relative">
+                        <div className="absolute -left-[22px] top-1 w-3 h-3 rounded-full bg-primary border-2 border-background" />
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <span className="text-sm font-medium text-foreground">{item.year}</span>
+                            <p className="text-sm text-muted-foreground">{item.milestone}</p>
+                          </div>
+                          <Badge variant="outline" className="shrink-0">
+                            {item.count} patents
+                          </Badge>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
               {/* Key Patents Table */}
               <div>
                 <h4 className="text-sm font-medium text-foreground mb-3">Notable Patents</h4>
