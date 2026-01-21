@@ -42,12 +42,12 @@ const familyFilters = [
 ];
 
 const CHART_COLORS = [
-  "hsl(221, 83%, 53%)",   // Bright blue
-  "hsl(142, 71%, 45%)",   // Emerald green
-  "hsl(45, 93%, 47%)",    // Amber/gold
-  "hsl(280, 67%, 55%)",   // Purple
-  "hsl(0, 84%, 60%)",     // Red
-  "hsl(187, 85%, 43%)",   // Cyan/teal
+  "hsl(232, 32%, 38%)",   // Deep purple (#414A7F)
+  "hsl(231, 97%, 75%)",   // Light purple (#8193FD)
+  "hsl(231, 100%, 82%)",  // Soft lavender (#A1AFFF)
+  "hsl(330, 65%, 55%)",   // Rose pink
+  "hsl(210, 60%, 50%)",   // Steel blue
+  "hsl(220, 15%, 55%)",   // Warm grey
 ];
 
 // Prepare data for charts
