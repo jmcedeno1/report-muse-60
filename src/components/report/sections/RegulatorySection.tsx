@@ -1,8 +1,5 @@
 import { regulatoryFramework } from "@/data/reportData";
-import { expertInsights, keyTakeaways } from "@/data/expertInsightsData";
 import { CollapsibleCard } from "../CollapsibleCard";
-import { ExpertQuoteCard } from "../ExpertQuoteCard";
-import { TakeawayBox } from "../TakeawayBox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -127,19 +124,6 @@ export function RegulatorySection() {
           </CollapsibleContent>
         </Card>
       </Collapsible>
-
-      {/* Expert Insights */}
-      {expertInsights.regulatory?.map((quote) => (
-        <ExpertQuoteCard key={quote.id} quote={quote} />
-      ))}
-
-      {/* Key Takeaways */}
-      {keyTakeaways.regulatory && (
-        <TakeawayBox 
-          title="Regulatory Takeaways" 
-          takeaways={keyTakeaways.regulatory} 
-        />
-      )}
     </section>
   );
 }

@@ -1,9 +1,6 @@
 import { executiveSummary } from "@/data/reportData";
-import { expertInsights, keyTakeaways } from "@/data/expertInsightsData";
 import { StatCard } from "../StatCard";
 import { UtrechtV2GAnimation } from "../UtrechtV2GAnimation";
-import { ExpertQuoteCard } from "../ExpertQuoteCard";
-import { TakeawayBox } from "../TakeawayBox";
 import { Zap } from "lucide-react";
 
 export function ExecutiveSummarySection() {
@@ -31,11 +28,6 @@ export function ExecutiveSummarySection() {
         <div className="w-24 h-1 bg-primary rounded-full mb-6" />
       </div>
 
-      {/* Expert Vision Quote */}
-      {expertInsights.overview?.[0] && (
-        <ExpertQuoteCard quote={expertInsights.overview[0]} />
-      )}
-
       <div className="prose prose-slate max-w-none mb-8">
         {/* First two paragraphs */}
         {paragraphs.slice(0, 2).map((paragraph, index) => (
@@ -55,25 +47,11 @@ export function ExecutiveSummarySection() {
         ))}
       </div>
 
-      {/* Market Scale Quote */}
-      {expertInsights.overview?.[1] && (
-        <ExpertQuoteCard quote={expertInsights.overview[1]} />
-      )}
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {executiveSummary.keyStats.map((stat) => (
           <StatCard key={stat.label} label={stat.label} value={stat.value} />
         ))}
       </div>
-
-      {/* Key Takeaways */}
-      {keyTakeaways.overview && (
-        <TakeawayBox 
-          title="Executive Summary Takeaways" 
-          takeaways={keyTakeaways.overview} 
-          defaultOpen={true}
-        />
-      )}
     </section>
   );
 }

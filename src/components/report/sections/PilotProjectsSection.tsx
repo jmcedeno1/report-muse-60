@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { pilotProjects, pilotProjectsSummary } from "@/data/reportData";
-import { expertInsights, keyTakeaways } from "@/data/expertInsightsData";
 import { FilterTabs } from "../FilterTabs";
-import { ExpertQuoteCard } from "../ExpertQuoteCard";
-import { TakeawayBox } from "../TakeawayBox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Calendar, Users, CheckCircle, Zap, Car, Battery, Activity, TrendingUp, Leaf, Globe } from "lucide-react";
@@ -291,19 +288,6 @@ export function PilotProjectsSection() {
         <p className="text-center text-muted-foreground py-8">
           No projects match the selected filters.
         </p>
-      )}
-
-      {/* Expert Insights */}
-      {expertInsights.pilots?.map((quote) => (
-        <ExpertQuoteCard key={quote.id} quote={quote} />
-      ))}
-
-      {/* Key Takeaways */}
-      {keyTakeaways.pilots && (
-        <TakeawayBox 
-          title="Pilot Projects Takeaways" 
-          takeaways={keyTakeaways.pilots} 
-        />
       )}
     </section>
   );

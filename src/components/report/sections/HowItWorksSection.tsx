@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { howItWorks } from "@/data/reportData";
-import { expertInsights, keyTakeaways } from "@/data/expertInsightsData";
 import { CollapsibleCard } from "../CollapsibleCard";
 import { FilterTabs } from "../FilterTabs";
-import { ExpertQuoteCard } from "../ExpertQuoteCard";
-import { TakeawayBox } from "../TakeawayBox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Zap, Home, Plug, CheckCircle, XCircle } from "lucide-react";
@@ -146,19 +143,6 @@ export function HowItWorksSection() {
           );
         })}
       </div>
-
-      {/* Expert Insight */}
-      {expertInsights.howItWorks?.[0] && (
-        <ExpertQuoteCard quote={expertInsights.howItWorks[0]} className="mt-6" />
-      )}
-
-      {/* Key Takeaways */}
-      {keyTakeaways.howItWorks && (
-        <TakeawayBox 
-          title="How It Works Takeaways" 
-          takeaways={keyTakeaways.howItWorks} 
-        />
-      )}
     </section>
   );
 }

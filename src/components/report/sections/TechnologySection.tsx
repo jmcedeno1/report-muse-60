@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { technologyDeepDive } from "@/data/reportData";
-import { expertInsights, keyTakeaways } from "@/data/expertInsightsData";
 import { CollapsibleCard } from "../CollapsibleCard";
-import { ExpertQuoteCard } from "../ExpertQuoteCard";
-import { TakeawayBox } from "../TakeawayBox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -231,19 +228,6 @@ export function TechnologySection() {
           </div>
         </TabsContent>
       </Tabs>
-
-      {/* Expert Insights */}
-      {expertInsights.technology?.map((quote) => (
-        <ExpertQuoteCard key={quote.id} quote={quote} />
-      ))}
-
-      {/* Key Takeaways */}
-      {keyTakeaways.technology && (
-        <TakeawayBox 
-          title="Technology Takeaways" 
-          takeaways={keyTakeaways.technology} 
-        />
-      )}
     </section>
   );
 }

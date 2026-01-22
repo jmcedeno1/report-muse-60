@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { marketData } from "@/data/reportData";
-import { expertInsights, keyTakeaways } from "@/data/expertInsightsData";
 import { CollapsibleCard } from "../CollapsibleCard";
 import { FilterTabs } from "../FilterTabs";
 import { BusinessModelAnimation } from "../BusinessModelAnimation";
-import { ExpertQuoteCard } from "../ExpertQuoteCard";
-import { TakeawayBox } from "../TakeawayBox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Building, Zap, Factory, Globe, Briefcase } from "lucide-react";
@@ -177,19 +174,6 @@ export function MarketSection() {
           </p>
         )}
       </div>
-
-      {/* Expert Insights */}
-      {expertInsights.market?.map((quote) => (
-        <ExpertQuoteCard key={quote.id} quote={quote} />
-      ))}
-
-      {/* Key Takeaways */}
-      {keyTakeaways.market && (
-        <TakeawayBox 
-          title="Market Takeaways" 
-          takeaways={keyTakeaways.market} 
-        />
-      )}
     </section>
   );
 }
