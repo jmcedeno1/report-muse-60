@@ -2,9 +2,10 @@ import { useState } from "react";
 import { marketData } from "@/data/reportData";
 import { CollapsibleCard } from "../CollapsibleCard";
 import { FilterTabs } from "../FilterTabs";
+import { BusinessModelAnimation } from "../BusinessModelAnimation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, Building, Zap, Factory, Globe } from "lucide-react";
+import { TrendingUp, Building, Zap, Factory, Globe, Briefcase } from "lucide-react";
 
 type PlayerCategory = "all" | "automakers" | "purePlayers" | "energyCompanies" | "equipmentManufacturers";
 type Region = "all" | "North America" | "Europe" | "Asia-Pacific";
@@ -111,6 +112,16 @@ export function MarketSection() {
             </div>
           ))}
         </div>
+      </CollapsibleCard>
+
+      {/* Business Models */}
+      <CollapsibleCard
+        title="Emerging Business Models"
+        icon={<Briefcase className="h-5 w-5 text-primary" />}
+        defaultOpen={true}
+        className="mb-6"
+      >
+        <BusinessModelAnimation models={marketData.businessModels} />
       </CollapsibleCard>
 
       {/* Key Players */}
