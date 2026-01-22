@@ -5,10 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { Search, AlertTriangle, Lightbulb } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Search, AlertTriangle, Lightbulb, ChevronDown, ChevronUp } from "lucide-react";
+
+const INITIAL_STANDARDS_COUNT = 5;
 
 export function TechnologySection() {
   const [standardsSearch, setStandardsSearch] = useState("");
+  const [showAllStandards, setShowAllStandards] = useState(false);
 
   const filteredStandards = technologyDeepDive.standards.items.filter(
     (standard) =>
@@ -16,6 +20,14 @@ export function TechnologySection() {
       standard.scope.toLowerCase().includes(standardsSearch.toLowerCase()) ||
       standard.organization.toLowerCase().includes(standardsSearch.toLowerCase())
   );
+
+  const displayedStandards = standardsSearch
+    ? filteredStandards
+    : showAllStandards
+      ? filteredStandards
+      : filteredStandards.slice(0, INITIAL_STANDARDS_COUNT);
+
+  const hasMoreStandards = !standardsSearch && filteredStandards.length > INITIAL_STANDARDS_COUNT;
 
   return (
     <section id="technology" className="scroll-mt-8">
@@ -150,7 +162,7 @@ export function TechnologySection() {
                 </tr>
               </thead>
               <tbody>
-                {filteredStandards.map((standard) => (
+                {displayedStandards.map((standard) => (
                   <tr key={standard.standard} className="border-b border-border">
                     <td className="py-3 px-4 font-medium text-foreground">{standard.standard}</td>
                     <td className="py-3 px-4 text-muted-foreground">{standard.organization}</td>
@@ -164,6 +176,27 @@ export function TechnologySection() {
               </tbody>
             </table>
           </div>
+
+          {hasMoreStandards && (
+            <div className="flex justify-center pt-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowAllStandards(!showAllStandards)}
+                className="gap-2"
+              >
+                {showAllStandards ? (
+                  <>
+                    Show less <ChevronUp className="h-4 w-4" />
+                  </>
+                ) : (
+                  <>
+                    View all {filteredStandards.length} standards <ChevronDown className="h-4 w-4" />
+                  </>
+                )}
+              </Button>
+            </div>
+          )}
         </TabsContent>
 
         {/* Challenges Tab */}
