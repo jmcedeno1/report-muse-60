@@ -1,6 +1,6 @@
 import { executiveSummary } from "@/data/reportData";
 import { StatCard } from "../StatCard";
-import { UtrechtV2GAnimation } from "../UtrechtV2GAnimation";
+import { LogisticsV2GAnimation } from "../LogisticsV2GAnimation";
 import { Zap } from "lucide-react";
 
 export function ExecutiveSummarySection() {
@@ -36,8 +36,8 @@ export function ExecutiveSummarySection() {
           </p>
         ))}
 
-        {/* Bidirectional Charging Animation */}
-        <UtrechtV2GAnimation />
+        {/* Logistics V2G Animation */}
+        <LogisticsV2GAnimation />
 
         {/* Remaining paragraphs */}
         {paragraphs.slice(2).map((paragraph, index) => (
