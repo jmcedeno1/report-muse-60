@@ -8,7 +8,9 @@ import {
   DollarSign, 
   Lightbulb,
   ChevronRight,
-  ArrowRight
+  ArrowRight,
+  Building2,
+  Car
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -42,6 +44,8 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   TrendingUp,
   ShieldCheck,
   Truck,
+  Building2,
+  Car,
 };
 
 export function BusinessModelAnimation({ models }: BusinessModelAnimationProps) {

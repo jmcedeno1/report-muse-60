@@ -1,6 +1,5 @@
 import { impactData } from "@/data/reportData";
 import { CollapsibleCard } from "../CollapsibleCard";
-import { BusinessModelAnimation } from "../BusinessModelAnimation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DollarSign, Leaf, Battery, AlertTriangle, CheckCircle } from "lucide-react";
@@ -35,12 +34,6 @@ export function ImpactSection() {
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Business Models with Animation */}
-          <div>
-            <p className="font-medium text-foreground mb-3">Emerging Business Models</p>
-            <BusinessModelAnimation models={impactData.economic.businessModels} />
           </div>
 
           {/* Barriers */}

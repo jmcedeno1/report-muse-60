@@ -485,6 +485,76 @@ export const marketData = {
       "Growing consumer awareness of energy independence",
     ],
   },
+  businessModels: [
+    {
+      model: "Aggregator Model",
+      description: "Companies aggregate multiple EVs to provide grid services at scale, acting as intermediaries between EV owners and grid operators",
+      players: ["Nuvve", "The Mobility House", "Fermata Energy"],
+      valueProposition: "Pool distributed EV batteries into a virtual power plant capable of delivering grid-scale services while sharing revenue with participants",
+      customerSegments: [
+        { segment: "Fleet Operators", example: "Logistics companies, municipal fleets" },
+        { segment: "Commercial Building Owners", example: "Office parks, retail centers" },
+        { segment: "Residential Aggregation", example: "Community V2G programs" },
+      ],
+      revenueStreams: [
+        { stream: "Frequency Regulation", description: "Real-time grid balancing ($50-150/month per vehicle)" },
+        { stream: "Demand Response", description: "Peak shaving payments from utilities" },
+        { stream: "Capacity Markets", description: "Availability payments for grid support" },
+      ],
+      icon: "Network",
+    },
+    {
+      model: "Utility-Integrated Model",
+      description: "Utilities directly manage V2G infrastructure and offer programs to customers, integrating bidirectional charging into their grid operations",
+      players: ["PG&E", "Enel X", "E.ON", "Tokyo Electric (TEPCO)"],
+      valueProposition: "Provide turnkey V2G solutions with guaranteed incentives, simplified billing, and grid-optimized charging schedules",
+      customerSegments: [
+        { segment: "Residential Customers", example: "Utility customers with EVs" },
+        { segment: "Commercial Accounts", example: "Business customers seeking demand management" },
+        { segment: "Municipal Partners", example: "City governments and public agencies" },
+      ],
+      revenueStreams: [
+        { stream: "Rate Incentives", description: "Reduced electricity rates for V2G participants" },
+        { stream: "Bill Credits", description: "Monthly credits for grid services provided" },
+        { stream: "Infrastructure Cost Recovery", description: "Regulated rate base for V2G equipment" },
+      ],
+      icon: "Building2",
+    },
+    {
+      model: "OEM-Centric Model",
+      description: "Automakers integrate bidirectional capabilities and energy services directly into their vehicle ecosystem",
+      players: ["Ford (Intelligent Backup Power)", "Nissan (Energy Share)", "Hyundai (V2L/V2H)"],
+      valueProposition: "Seamless vehicle-to-grid integration with manufacturer warranty protection and proprietary charging solutions",
+      customerSegments: [
+        { segment: "Brand-Loyal Customers", example: "Ford F-150 Lightning owners" },
+        { segment: "Premium EV Buyers", example: "Customers seeking integrated home energy" },
+        { segment: "Fleet Customers", example: "Commercial buyers with OEM fleet programs" },
+      ],
+      revenueStreams: [
+        { stream: "Hardware Sales", description: "Bidirectional chargers (Ford Charge Station Pro: $1,310)" },
+        { stream: "Energy Services Subscription", description: "Monthly fees for smart energy management" },
+        { stream: "Extended Warranty", description: "Battery warranty packages for V2G use" },
+      ],
+      icon: "Car",
+    },
+    {
+      model: "Energy Retailer Model",
+      description: "Energy retailers and aggregators offer dynamic tariffs that incentivize bidirectional charging behavior",
+      players: ["Octopus Energy", "Tibber", "OVO Energy"],
+      valueProposition: "Dynamic pricing and smart tariffs that automatically optimize charging/discharging based on wholesale energy prices",
+      customerSegments: [
+        { segment: "Price-Sensitive Consumers", example: "Customers on time-of-use tariffs" },
+        { segment: "Tech-Savvy Homeowners", example: "Smart home enthusiasts" },
+        { segment: "Solar PV Owners", example: "Prosumers with home generation" },
+      ],
+      revenueStreams: [
+        { stream: "Arbitrage Savings", description: "Buy low/sell high price differential (up to £1,000/year)" },
+        { stream: "Export Payments", description: "Revenue from grid export during peak prices" },
+        { stream: "Platform Subscription", description: "Smart tariff access and optimization tools" },
+      ],
+      icon: "TrendingUp",
+    },
+  ],
   players: {
     automakers: [
       {
