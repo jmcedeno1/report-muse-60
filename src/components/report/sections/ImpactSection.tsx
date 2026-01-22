@@ -1,5 +1,8 @@
 import { impactData } from "@/data/reportData";
+import { expertInsights, keyTakeaways } from "@/data/expertInsightsData";
 import { CollapsibleCard } from "../CollapsibleCard";
+import { ExpertQuoteCard } from "../ExpertQuoteCard";
+import { TakeawayBox } from "../TakeawayBox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DollarSign, Leaf, Battery, AlertTriangle, CheckCircle } from "lucide-react";
@@ -125,6 +128,19 @@ export function ImpactSection() {
           </div>
         </div>
       </CollapsibleCard>
+
+      {/* Expert Insights */}
+      {expertInsights.impact?.map((quote) => (
+        <ExpertQuoteCard key={quote.id} quote={quote} />
+      ))}
+
+      {/* Key Takeaways */}
+      {keyTakeaways.impact && (
+        <TakeawayBox 
+          title="Impact Takeaways" 
+          takeaways={keyTakeaways.impact} 
+        />
+      )}
     </section>
   );
 }

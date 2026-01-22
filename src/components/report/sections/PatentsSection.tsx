@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { patentData } from "@/data/reportData";
+import { expertInsights, keyTakeaways } from "@/data/expertInsightsData";
 import { CollapsibleCard } from "@/components/report/CollapsibleCard";
 import { FilterTabs } from "@/components/report/FilterTabs";
+import { ExpertQuoteCard } from "@/components/report/ExpertQuoteCard";
+import { TakeawayBox } from "@/components/report/TakeawayBox";
 import { Shield, TrendingUp, Users, Lightbulb, Calendar, FileText, Globe, Layers, BarChart3 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -428,6 +431,19 @@ export function PatentsSection() {
           These emerging areas represent the frontier of V2G innovation, with patent filings accelerating as the technology matures and new applications are discovered.
         </p>
       </div>
+
+      {/* Expert Insight */}
+      {expertInsights.patents?.[0] && (
+        <ExpertQuoteCard quote={expertInsights.patents[0]} />
+      )}
+
+      {/* Key Takeaways */}
+      {keyTakeaways.patents && (
+        <TakeawayBox 
+          title="Patents & IP Takeaways" 
+          takeaways={keyTakeaways.patents} 
+        />
+      )}
     </section>
   );
 }
