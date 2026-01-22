@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { scientificPublicationsData } from "@/data/reportData";
+import { expertInsights, keyTakeaways } from "@/data/expertInsightsData";
 import { CollapsibleCard } from "@/components/report/CollapsibleCard";
 import { FilterTabs } from "@/components/report/FilterTabs";
+import { ExpertQuoteCard } from "@/components/report/ExpertQuoteCard";
+import { TakeawayBox } from "@/components/report/TakeawayBox";
 import { 
   BookOpen, TrendingUp, Users, Lightbulb, FileText, 
   Globe, BarChart3, Award, Quote, Building, ExternalLink, Lock, Unlock
@@ -367,6 +370,19 @@ export function ScientificPublicationsSection() {
           These emerging research topics represent the cutting edge of V2G academic inquiry, with publication activity accelerating as new interdisciplinary connections are explored.
         </p>
       </div>
+
+      {/* Expert Insight */}
+      {expertInsights.publications?.[0] && (
+        <ExpertQuoteCard quote={expertInsights.publications[0]} />
+      )}
+
+      {/* Key Takeaways */}
+      {keyTakeaways.publications && (
+        <TakeawayBox 
+          title="Research Takeaways" 
+          takeaways={keyTakeaways.publications} 
+        />
+      )}
     </section>
   );
 }
