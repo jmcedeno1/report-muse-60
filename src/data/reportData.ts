@@ -168,6 +168,13 @@ export const technologyDeepDive = {
         region: "Global (Japan origin)",
       },
       {
+        standard: "IEC 61851-1 Ed.4.0",
+        organization: "IEC",
+        scope: "Core EV charging safety incl. bidirectional power.",
+        status: "Draft International Standard (target ~2026)",
+        region: "Global",
+      },
+      {
         standard: "IEC 61851-23",
         organization: "IEC",
         scope: "DC EV charging station requirements, including Bidirectional Power Transfer (BPT).",
@@ -182,10 +189,24 @@ export const technologyDeepDive = {
         region: "Global",
       },
       {
+        standard: "IEC 62196-7",
+        organization: "IEC",
+        scope: "Bidirectional vehicle adapters.",
+        status: "In Development (target ~2026)",
+        region: "Global",
+      },
+      {
         standard: "IEC 63110",
         organization: "IEC",
         scope: "Protocol for the management of EV charging and discharging infrastructure.",
         status: "Active / Emerging",
+        region: "Global",
+      },
+      {
+        standard: "IEC 63379 / SAE J3271 (MCS)",
+        organization: "IEC / SAE",
+        scope: "Megawatt charging system incl. bidirectional heavy-duty EVs.",
+        status: "Technical Specification / Emerging (2025–26)",
         region: "Global",
       },
       {
@@ -207,6 +228,13 @@ export const technologyDeepDive = {
         organization: "ISO / IEC",
         scope: "The \"gold standard\" for V2G communication; supports advanced bidirectional power transfer.",
         status: "Mandatory for new public V2G in EU",
+        region: "Global",
+      },
+      {
+        standard: "ISO 15118-24",
+        organization: "ISO / IEC",
+        scope: "Wireless and automated V2G connection devices.",
+        status: "Under revision / Draft",
         region: "Global",
       },
       {
