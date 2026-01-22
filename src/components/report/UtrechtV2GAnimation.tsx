@@ -1,4 +1,4 @@
-import { Car, Zap, Building2, Wind, Sun, BatteryCharging } from "lucide-react";
+import { Car, Zap, Building2, Wind, Sun, BatteryCharging, Flame, Atom } from "lucide-react";
 
 export function UtrechtV2GAnimation() {
   return (
@@ -8,25 +8,31 @@ export function UtrechtV2GAnimation() {
         <span className="text-xs md:text-sm font-semibold text-primary">Vehicle-to-Grid (V2G) Energy Flow</span>
       </div>
 
-      {/* Horizontal Layout: Solar/Wind → Grid → Charger → Cars */}
+      {/* Horizontal Layout: Energy Sources → Grid → Charger → Cars */}
       <div className="relative flex items-center justify-center gap-2 md:gap-4 px-4">
         
-        {/* Renewable Sources (Left) */}
+        {/* Energy Sources (Left) */}
         <div className="flex flex-col items-center gap-2">
-          <div className="flex gap-2">
-            <div className="p-2 md:p-3 rounded-xl bg-card border border-border shadow-md">
-              <Sun className="h-5 w-5 md:h-6 md:w-6 text-yellow-500 animate-pulse" style={{ animationDuration: '3s' }} />
+          <div className="grid grid-cols-2 gap-1.5">
+            <div className="p-1.5 md:p-2 rounded-lg bg-card border border-border shadow-sm">
+              <Sun className="h-4 w-4 md:h-5 md:w-5 text-yellow-500" />
             </div>
-            <div className="p-2 md:p-3 rounded-xl bg-card border border-border shadow-md">
-              <Wind className="h-5 w-5 md:h-6 md:w-6 text-sky-500 animate-spin" style={{ animationDuration: '8s' }} />
+            <div className="p-1.5 md:p-2 rounded-lg bg-card border border-border shadow-sm">
+              <Wind className="h-4 w-4 md:h-5 md:w-5 text-sky-500" />
+            </div>
+            <div className="p-1.5 md:p-2 rounded-lg bg-card border border-border shadow-sm">
+              <Flame className="h-4 w-4 md:h-5 md:w-5 text-orange-500" />
+            </div>
+            <div className="p-1.5 md:p-2 rounded-lg bg-card border border-border shadow-sm">
+              <Atom className="h-4 w-4 md:h-5 md:w-5 text-purple-500" />
             </div>
           </div>
-          <span className="text-[10px] md:text-xs text-muted-foreground">Renewables</span>
+          <span className="text-[10px] md:text-xs text-muted-foreground">Power Sources</span>
         </div>
 
         {/* Flow Arrow */}
         <div className="flex items-center">
-          <div className="w-4 md:w-8 h-0.5 bg-gradient-to-r from-yellow-500/50 to-primary" />
+          <div className="w-4 md:w-8 h-0.5 bg-gradient-to-r from-muted-foreground/30 to-primary" />
           <Zap className="h-3 w-3 md:h-4 md:w-4 text-primary animate-pulse" />
         </div>
 
