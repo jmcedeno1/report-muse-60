@@ -10,7 +10,9 @@ import {
   ChevronRight,
   ArrowRight,
   Building2,
-  Car
+  Car,
+  FileText,
+  Battery
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -46,6 +48,8 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Truck,
   Building2,
   Car,
+  FileText,
+  Battery,
 };
 
 export function BusinessModelAnimation({ models }: BusinessModelAnimationProps) {
