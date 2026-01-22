@@ -20,6 +20,7 @@ export const sections: Section[] = [
   { id: "impact", title: "Economic & Environmental Impact", icon: "Leaf" },
   { id: "challenges", title: "Challenges & Future Outlook", icon: "AlertTriangle" },
   { id: "references", title: "References", icon: "BookOpen" },
+  { id: "report-generator", title: "Report Generator", icon: "FileDown" },
 ];
 
 export const executiveSummary = {

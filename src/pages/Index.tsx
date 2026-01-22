@@ -11,11 +11,12 @@ import { RegulatorySection } from "@/components/report/sections/RegulatorySectio
 import { ImpactSection } from "@/components/report/sections/ImpactSection";
 import { ChallengesSection } from "@/components/report/sections/ChallengesSection";
 import { ReferencesSection } from "@/components/report/sections/ReferencesSection";
+import { ReportGeneratorSection } from "@/components/report/sections/ReportGeneratorSection";
 const Index = () => {
   const [activeSection, setActiveSection] = useState("overview");
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["overview", "how-it-works", "technology", "patents", "publications", "market", "pilots", "regulatory", "impact", "challenges", "references"];
+      const sections = ["overview", "how-it-works", "technology", "patents", "publications", "market", "pilots", "regulatory", "impact", "challenges", "references", "report-generator"];
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -46,6 +47,7 @@ const Index = () => {
           <ImpactSection />
           <ChallengesSection />
           <ReferencesSection />
+          <ReportGeneratorSection />
         </div>
 
         <footer className="mt-16 pt-8 border-t border-border">
