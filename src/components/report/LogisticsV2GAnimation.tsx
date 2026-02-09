@@ -93,7 +93,7 @@ export function LogisticsV2GAnimation() {
       <svg className="w-full h-10 md:h-12 mt-1" viewBox="0 0 600 50" preserveAspectRatio="xMidYMid meet" fill="none">
         {/* Curved path */}
         <path
-          d="M200 5 Q300 48 400 5"
+          d="M150 5 Q300 48 450 5"
           stroke="hsl(var(--primary))"
           strokeWidth="1.5"
           strokeDasharray="4 3"
@@ -102,13 +102,13 @@ export function LogisticsV2GAnimation() {
         />
         {/* Arrowhead */}
         <polygon
-          points="397,3 405,5 399,11"
+          points="447,3 455,5 449,11"
           fill="hsl(var(--primary))"
           fillOpacity="0.6"
         />
         {/* Animated dot along curve */}
         <circle r="3" fill="hsl(var(--primary))">
-          <animateMotion dur="2s" repeatCount="indefinite" path="M200 5 Q300 48 400 5" />
+          <animateMotion dur="2s" repeatCount="indefinite" path="M150 5 Q300 48 450 5" />
         </circle>
         {/* V2B label */}
         <text x="300" y="46" textAnchor="middle" fill="hsl(var(--primary))" fontSize="9" fontWeight="600" opacity="0.7">V2B</text>
