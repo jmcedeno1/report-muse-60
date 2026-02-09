@@ -31,7 +31,7 @@ export function LogisticsV2GAnimation() {
   return (
     <div className="relative w-full py-5 md:py-6 mb-6 rounded-xl bg-gradient-to-br from-primary/5 via-background to-primary/10 border border-border/50 overflow-hidden">
       {/* Main row */}
-      <div className="flex items-center justify-center gap-0.5 md:gap-2 px-2 md:px-6">
+      <div className="relative flex items-center justify-center gap-0.5 md:gap-2 px-2 md:px-6">
         {/* Electric Buses (DER Assets) */}
         <div className="flex flex-col items-center gap-1 shrink-0">
           <div className="flex gap-1">
@@ -55,7 +55,7 @@ export function LogisticsV2GAnimation() {
         <BiFlow label="DC" />
 
         {/* Bidirectional Chargers */}
-        <div className="flex flex-col items-center gap-1 shrink-0">
+        <div className="flex flex-col items-center gap-1 shrink-0" id="charger-node">
           <div className="relative p-2 md:p-3 rounded-2xl bg-primary text-primary-foreground shadow-lg">
             <BatteryCharging className="h-5 w-5 md:h-6 md:w-6" />
             <Zap className="absolute -top-1 -right-1 h-3 w-3 text-yellow-300 animate-pulse" />
@@ -80,7 +80,7 @@ export function LogisticsV2GAnimation() {
         <UniFlow label="AC" />
 
         {/* Sites & Buildings */}
-        <div className="flex flex-col items-center gap-1 shrink-0">
+        <div className="flex flex-col items-center gap-1 shrink-0" id="building-node">
           <div className="p-2 md:p-3 rounded-xl bg-card border border-primary/40 shadow-sm shadow-primary/10">
             <Building2 className="h-5 w-5 md:h-7 md:w-7 text-muted-foreground" />
           </div>
@@ -89,21 +89,32 @@ export function LogisticsV2GAnimation() {
         </div>
       </div>
 
-      {/* Chargers → Buildings direct flow */}
-      <div className="flex justify-center mt-2 px-4">
-        <div className="relative flex items-center gap-1">
-          <span className="text-[7px] md:text-[9px] text-muted-foreground">Chargers</span>
-          <div className="w-12 md:w-24 relative h-6 flex items-center justify-center">
-            <div className="w-full h-0.5 bg-primary/40 rounded-full" />
-            <div className="absolute w-1.5 h-1.5 bg-primary rounded-full animate-[flow-right_1s_ease-in-out_infinite]" />
-            <ArrowRight className="absolute h-3 w-3 text-primary" />
-          </div>
-          <span className="text-[7px] md:text-[9px] text-muted-foreground">Sites & Buildings</span>
-          <span className="ml-1 text-[7px] md:text-[9px] text-primary font-medium">(V2B)</span>
-        </div>
-      </div>
+      {/* Curved arrow from Chargers to Sites & Buildings (V2B) */}
+      <svg className="w-full h-10 md:h-12 mt-1" viewBox="0 0 600 50" preserveAspectRatio="xMidYMid meet" fill="none">
+        {/* Curved path */}
+        <path
+          d="M200 5 Q300 48 400 5"
+          stroke="hsl(var(--primary))"
+          strokeWidth="1.5"
+          strokeDasharray="4 3"
+          strokeOpacity="0.5"
+          fill="none"
+        />
+        {/* Arrowhead */}
+        <polygon
+          points="397,3 405,5 399,11"
+          fill="hsl(var(--primary))"
+          fillOpacity="0.6"
+        />
+        {/* Animated dot along curve */}
+        <circle r="3" fill="hsl(var(--primary))">
+          <animateMotion dur="2s" repeatCount="indefinite" path="M200 5 Q300 48 400 5" />
+        </circle>
+        {/* V2B label */}
+        <text x="300" y="46" textAnchor="middle" fill="hsl(var(--primary))" fontSize="9" fontWeight="600" opacity="0.7">V2B</text>
+      </svg>
 
-      <p className="mt-3 text-center text-[9px] md:text-xs text-muted-foreground px-4">
+      <p className="mt-1 text-center text-[9px] md:text-xs text-muted-foreground px-4">
         <span className="text-primary font-medium">Bidirectional power flow</span> — eBuses as DER assets exchange energy with the grid; chargers and grid both supply sites & buildings
       </p>
     </div>
