@@ -89,13 +89,17 @@ export function LogisticsV2GAnimation() {
         </div>
       </div>
 
-      {/* Chargers → Buildings curved path label */}
+      {/* Chargers → Buildings direct flow */}
       <div className="flex justify-center mt-2 px-4">
-        <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20">
-          <BatteryCharging className="h-2.5 w-2.5 text-primary" />
-          <ArrowRight className="h-2.5 w-2.5 text-primary" />
-          <Building2 className="h-2.5 w-2.5 text-primary" />
-          <span className="text-[7px] md:text-[9px] text-primary font-medium ml-0.5">Chargers also power Sites & Buildings (V2B)</span>
+        <div className="relative flex items-center gap-1">
+          <span className="text-[7px] md:text-[9px] text-muted-foreground">Chargers</span>
+          <div className="w-12 md:w-24 relative h-6 flex items-center justify-center">
+            <div className="w-full h-0.5 bg-primary/40 rounded-full" />
+            <div className="absolute w-1.5 h-1.5 bg-primary rounded-full animate-[flow-right_1s_ease-in-out_infinite]" />
+            <ArrowRight className="absolute h-3 w-3 text-primary" />
+          </div>
+          <span className="text-[7px] md:text-[9px] text-muted-foreground">Sites & Buildings</span>
+          <span className="ml-1 text-[7px] md:text-[9px] text-primary font-medium">(V2B)</span>
         </div>
       </div>
 
