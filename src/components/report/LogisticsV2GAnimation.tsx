@@ -1,4 +1,4 @@
-import { Bus, Zap, Building2, BatteryCharging, ArrowLeftRight } from "lucide-react";
+import { Bus, Zap, Building2, BatteryCharging, ArrowLeftRight, ArrowRight } from "lucide-react";
 
 function BiFlow({ label }: { label: string }) {
   return (
@@ -14,9 +14,23 @@ function BiFlow({ label }: { label: string }) {
   );
 }
 
+function UniFlow({ label }: { label: string }) {
+  return (
+    <div className="w-8 md:w-14 flex flex-col items-center gap-0.5">
+      <div className="relative w-full h-6 flex items-center justify-center">
+        <div className="w-full h-0.5 bg-primary/40 rounded-full" />
+        <div className="absolute w-1.5 h-1.5 bg-primary rounded-full animate-[flow-right_1s_ease-in-out_infinite]" />
+        <ArrowRight className="absolute h-3 w-3 text-primary" />
+      </div>
+      <span className="text-[6px] md:text-[8px] font-mono text-primary">{label}</span>
+    </div>
+  );
+}
+
 export function LogisticsV2GAnimation() {
   return (
     <div className="relative w-full py-5 md:py-6 mb-6 rounded-xl bg-gradient-to-br from-primary/5 via-background to-primary/10 border border-border/50 overflow-hidden">
+      {/* Main row */}
       <div className="flex items-center justify-center gap-0.5 md:gap-2 px-2 md:px-6">
         {/* Electric Buses (DER Assets) */}
         <div className="flex flex-col items-center gap-1 shrink-0">
@@ -37,10 +51,10 @@ export function LogisticsV2GAnimation() {
           <span className="text-[6px] md:text-[8px] text-muted-foreground">DER Assets</span>
         </div>
 
-        {/* Buses ↔ Chargers */}
+        {/* Buses ↔ Chargers (bidirectional) */}
         <BiFlow label="DC" />
 
-        {/* Bidirectional Chargers (Grid Inverters) */}
+        {/* Bidirectional Chargers */}
         <div className="flex flex-col items-center gap-1 shrink-0">
           <div className="relative p-2 md:p-3 rounded-2xl bg-primary text-primary-foreground shadow-lg">
             <BatteryCharging className="h-5 w-5 md:h-6 md:w-6" />
@@ -50,10 +64,10 @@ export function LogisticsV2GAnimation() {
           <span className="text-[6px] md:text-[8px] text-muted-foreground">Grid Inverters</span>
         </div>
 
-        {/* Chargers ↔ Grid */}
+        {/* Chargers ↔ Grid (bidirectional) */}
         <BiFlow label="V2G" />
 
-        {/* Power Grid (center - delivers to both chargers and buildings) */}
+        {/* Power Grid */}
         <div className="flex flex-col items-center gap-1 shrink-0">
           <div className="p-2 md:p-3 rounded-xl bg-card border border-border shadow-sm">
             <Zap className="h-5 w-5 md:h-7 md:w-7 text-primary" />
@@ -62,8 +76,8 @@ export function LogisticsV2GAnimation() {
           <span className="text-[6px] md:text-[8px] text-muted-foreground">V2G Services</span>
         </div>
 
-        {/* Grid ↔ Sites & Buildings */}
-        <BiFlow label="V2B/V2H" />
+        {/* Grid → Sites (unidirectional) */}
+        <UniFlow label="AC" />
 
         {/* Sites & Buildings */}
         <div className="flex flex-col items-center gap-1 shrink-0">
@@ -75,8 +89,18 @@ export function LogisticsV2GAnimation() {
         </div>
       </div>
 
-      <p className="mt-4 text-center text-[9px] md:text-xs text-muted-foreground px-4">
-        <span className="text-primary font-medium">Bidirectional power flow</span> — eBuses as DER assets exchange energy across the value chain
+      {/* Chargers → Buildings curved path label */}
+      <div className="flex justify-center mt-2 px-4">
+        <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20">
+          <BatteryCharging className="h-2.5 w-2.5 text-primary" />
+          <ArrowRight className="h-2.5 w-2.5 text-primary" />
+          <Building2 className="h-2.5 w-2.5 text-primary" />
+          <span className="text-[7px] md:text-[9px] text-primary font-medium ml-0.5">Chargers also power Sites & Buildings (V2B)</span>
+        </div>
+      </div>
+
+      <p className="mt-3 text-center text-[9px] md:text-xs text-muted-foreground px-4">
+        <span className="text-primary font-medium">Bidirectional power flow</span> — eBuses as DER assets exchange energy with the grid; chargers and grid both supply sites & buildings
       </p>
     </div>
   );
