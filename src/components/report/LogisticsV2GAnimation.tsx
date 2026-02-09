@@ -1,281 +1,152 @@
 import { useState, useEffect } from "react";
-import { Truck, Zap, Building2, Factory, BatteryCharging, Activity, ArrowRight, ArrowLeft, ArrowLeftRight } from "lucide-react";
+import { Bus, Zap, Building2, BatteryCharging, ArrowRight, ArrowLeft } from "lucide-react";
 
-type EnergyMode = "grid-import" | "v2f" | "v2g";
+type FlowMode = "charging" | "v2g" | "v2b";
 
-const modeConfig = {
-  "grid-import": {
-    label: "Grid Import",
-    description: "Charging trucks from grid",
-    color: "text-blue-500",
-    bgColor: "bg-blue-500/10",
-    borderColor: "border-blue-500/30",
-  },
-  "v2f": {
-    label: "V2F Mode",
-    description: "Trucks powering facility",
-    color: "text-green-500",
-    bgColor: "bg-green-500/10",
-    borderColor: "border-green-500/30",
-  },
-  "v2g": {
-    label: "V2G Mode",
-    description: "Grid stabilization active",
-    color: "text-purple-500",
-    bgColor: "bg-purple-500/10",
-    borderColor: "border-purple-500/30",
-  },
-};
+const modes: { key: FlowMode; label: string; desc: string }[] = [
+  { key: "charging", label: "Charging", desc: "Grid charges the bus fleet" },
+  { key: "v2g", label: "V2G", desc: "Buses stabilize the grid" },
+  { key: "v2b", label: "V2B", desc: "Buses power the office building" },
+];
 
-// Truck with battery SOC bar
-function TruckWithBattery({ soc, index, isActive }: { soc: number; index: number; isActive: boolean }) {
+function BusIcon({ soc, active }: { soc: number; active: boolean }) {
   return (
-    <div className={`relative flex flex-col items-center transition-all duration-500 ${isActive ? 'scale-105' : 'scale-100'}`}>
-      <div className={`p-1.5 md:p-2 rounded-lg ${isActive ? 'bg-primary text-primary-foreground shadow-lg' : 'bg-card border border-border text-muted-foreground'}`}>
-        <Truck className="h-4 w-4 md:h-5 md:w-5" />
+    <div className="flex flex-col items-center gap-0.5">
+      <div className={`p-1.5 rounded-lg transition-all duration-500 ${active ? 'bg-primary text-primary-foreground shadow-md' : 'bg-card border border-border text-muted-foreground'}`}>
+        <Bus className="h-4 w-4 md:h-5 md:w-5" />
       </div>
-      {/* Battery SOC Bar */}
-      <div className="mt-1 w-6 md:w-8 h-1.5 bg-muted rounded-full overflow-hidden">
-        <div 
-          className={`h-full rounded-full transition-all duration-1000 ${
-            soc > 60 ? 'bg-green-500' : soc > 30 ? 'bg-yellow-500' : 'bg-red-500'
-          }`}
+      <div className="w-6 h-1.5 bg-muted rounded-full overflow-hidden">
+        <div
+          className={`h-full rounded-full transition-all duration-1000 ${soc > 60 ? 'bg-green-500' : soc > 30 ? 'bg-yellow-500' : 'bg-red-500'}`}
           style={{ width: `${soc}%` }}
         />
       </div>
-      <span className="text-[7px] md:text-[8px] text-muted-foreground mt-0.5">{soc}%</span>
+      <span className="text-[7px] text-muted-foreground">{soc}%</span>
     </div>
   );
 }
 
-// Animated energy flow line
-function EnergyFlow({ direction, active, color }: { direction: "left" | "right" | "both"; active: boolean; color: string }) {
-  if (!active) return (
-    <div className="w-8 md:w-12 h-0.5 bg-muted/30 rounded-full" />
-  );
+function FlowArrow({ direction, active, label }: { direction: "left" | "right"; active: boolean; label?: string }) {
+  if (!active) return <div className="w-10 md:w-16 h-6 flex items-center justify-center"><div className="w-full h-px bg-border" /></div>;
 
   return (
-    <div className="relative w-8 md:w-12 h-4 flex items-center justify-center">
-      <div className={`absolute inset-x-0 h-0.5 ${color} rounded-full`} />
-      {direction === "left" && (
-        <div className="absolute inset-0 flex items-center">
-          <div className={`w-2 h-2 ${color} rounded-full animate-[flow-left_1s_ease-in-out_infinite]`} />
-        </div>
-      )}
-      {direction === "right" && (
-        <div className="absolute inset-0 flex items-center justify-end">
-          <div className={`w-2 h-2 ${color} rounded-full animate-[flow-right_1s_ease-in-out_infinite]`} />
-        </div>
-      )}
-      {direction === "both" && (
-        <>
-          <div className="absolute inset-0 flex items-center">
-            <div className={`w-1.5 h-1.5 ${color} rounded-full animate-[flow-left_1.2s_ease-in-out_infinite]`} />
-          </div>
-          <div className="absolute inset-0 flex items-center justify-end">
-            <div className={`w-1.5 h-1.5 ${color} rounded-full animate-[flow-right_1.2s_ease-in-out_infinite] delay-500`} />
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
-
-// Grid stability indicator
-function GridStabilityIndicator({ stable }: { stable: boolean }) {
-  return (
-    <div className="flex flex-col items-center gap-0.5">
-      <div className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[7px] md:text-[8px] font-medium ${
-        stable ? 'bg-green-500/10 text-green-600 border border-green-500/20' : 'bg-yellow-500/10 text-yellow-600 border border-yellow-500/20'
-      }`}>
-        <Activity className="h-2.5 w-2.5" />
-        <span>{stable ? '50.00 Hz' : '49.85 Hz'}</span>
+    <div className="w-10 md:w-16 flex flex-col items-center gap-0.5">
+      <div className="relative w-full h-6 flex items-center justify-center">
+        <div className="w-full h-0.5 bg-primary/40 rounded-full" />
+        <div className={`absolute w-2 h-2 bg-primary rounded-full ${direction === "right" ? "animate-[flow-right_1s_ease-in-out_infinite]" : "animate-[flow-left_1s_ease-in-out_infinite]"}`} />
+        {direction === "right" ? (
+          <ArrowRight className="absolute right-0 h-3 w-3 text-primary" />
+        ) : (
+          <ArrowLeft className="absolute left-0 h-3 w-3 text-primary" />
+        )}
       </div>
-      {/* Simplified waveform */}
-      <svg className="w-10 h-3" viewBox="0 0 40 12">
-        <path
-          d={stable 
-            ? "M0,6 Q5,2 10,6 Q15,10 20,6 Q25,2 30,6 Q35,10 40,6"
-            : "M0,6 Q5,1 10,7 Q15,11 20,5 Q25,1 30,8 Q35,10 40,6"
-          }
-          fill="none"
-          stroke={stable ? "#22c55e" : "#eab308"}
-          strokeWidth="1.5"
-          className="transition-all duration-500"
-        />
-      </svg>
+      {label && <span className="text-[7px] md:text-[8px] font-mono text-primary">{label}</span>}
     </div>
   );
 }
 
 export function LogisticsV2GAnimation() {
-  const [mode, setMode] = useState<EnergyMode>("grid-import");
-  const [truckSOCs, setTruckSOCs] = useState([85, 72, 60, 45]);
+  const [mode, setMode] = useState<FlowMode>("charging");
+  const [socs, setSocs] = useState([82, 68, 55]);
 
-  // Cycle through modes automatically
   useEffect(() => {
-    const modes: EnergyMode[] = ["grid-import", "v2f", "v2g"];
-    let currentIndex = 0;
-
+    let i = 0;
     const interval = setInterval(() => {
-      currentIndex = (currentIndex + 1) % modes.length;
-      setMode(modes[currentIndex]);
+      i = (i + 1) % modes.length;
+      setMode(modes[i].key);
     }, 4000);
-
     return () => clearInterval(interval);
   }, []);
 
-  // Simulate SOC changes based on mode
   useEffect(() => {
     const interval = setInterval(() => {
-      setTruckSOCs(prev => prev.map(soc => {
-        if (mode === "grid-import") {
-          return Math.min(100, soc + Math.random() * 2);
-        } else {
-          return Math.max(20, soc - Math.random() * 1.5);
-        }
-      }));
+      setSocs(prev => prev.map(s =>
+        mode === "charging" ? Math.min(100, s + Math.random() * 2) : Math.max(25, s - Math.random() * 1.5)
+      ));
     }, 2000);
-
     return () => clearInterval(interval);
   }, [mode]);
 
-  const config = modeConfig[mode];
+  const current = modes.find(m => m.key === mode)!;
+  const discharging = mode !== "charging";
 
   return (
-    <div className="relative w-full py-4 md:py-6 mb-6 overflow-hidden rounded-xl bg-gradient-to-br from-primary/5 via-background to-primary/10 border border-border/50">
-      {/* Mode Indicator */}
-      <div className="flex justify-center mb-4 px-4">
-        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${config.bgColor} border ${config.borderColor} transition-all duration-500`}>
-          <div className={`w-2 h-2 rounded-full ${config.color.replace('text-', 'bg-')} animate-pulse`} />
-          <span className={`text-xs md:text-sm font-semibold ${config.color}`}>{config.label}</span>
-          <span className="text-[10px] md:text-xs text-muted-foreground">• {config.description}</span>
+    <div className="relative w-full py-5 md:py-6 mb-6 rounded-xl bg-gradient-to-br from-primary/5 via-background to-primary/10 border border-border/50 overflow-hidden">
+      {/* Mode badge */}
+      <div className="flex justify-center mb-4">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+          <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+          <span className="text-xs md:text-sm font-semibold text-primary">{current.label}</span>
+          <span className="text-[10px] md:text-xs text-muted-foreground">• {current.desc}</span>
         </div>
       </div>
 
-      {/* Main Layout */}
-      <div className="relative flex items-center justify-center gap-2 md:gap-4 px-2 md:px-6">
-        
-        {/* Public Grid */}
+      {/* Main layout: Grid ← → Buses ← → Building */}
+      <div className="flex items-center justify-center gap-1 md:gap-2 px-3 md:px-8">
+        {/* Power Grid */}
         <div className="flex flex-col items-center gap-1">
-          <div className="relative p-2 md:p-3 rounded-xl bg-card border border-border shadow-md">
+          <div className="p-2 md:p-3 rounded-xl bg-card border border-border shadow-sm">
             <Building2 className="h-5 w-5 md:h-7 md:w-7 text-primary" />
-            <GridStabilityIndicator stable={mode !== "grid-import"} />
           </div>
           <span className="text-[8px] md:text-[10px] font-medium text-foreground">Power Grid</span>
-          {/* Power label */}
-          <div className={`text-[7px] md:text-[9px] font-mono ${mode === "grid-import" ? 'text-blue-500' : mode === "v2g" ? 'text-purple-500' : 'text-muted-foreground'}`}>
-            {mode === "grid-import" ? '↓ 150 kW' : mode === "v2g" ? '↑ 120 kW' : '— 0 kW'}
-          </div>
         </div>
 
-        {/* Grid ↔ Chargers Flow */}
-        <div className="flex flex-col items-center gap-1">
-          <EnergyFlow 
-            direction={mode === "grid-import" ? "right" : mode === "v2g" ? "left" : "both"} 
-            active={mode !== "v2f"} 
-            color={mode === "grid-import" ? "bg-blue-500" : "bg-purple-500"}
-          />
-          <div className="flex items-center gap-0.5">
-            {mode === "grid-import" && <ArrowRight className="h-2.5 w-2.5 text-blue-500" />}
-            {mode === "v2g" && <ArrowLeft className="h-2.5 w-2.5 text-purple-500" />}
-            {mode === "v2f" && <ArrowLeftRight className="h-2.5 w-2.5 text-muted-foreground" />}
-          </div>
-        </div>
+        {/* Grid ↔ Buses flow */}
+        <FlowArrow
+          direction={mode === "charging" ? "right" : "left"}
+          active={mode === "charging" || mode === "v2g"}
+          label={mode === "charging" ? "150 kW" : mode === "v2g" ? "120 kW" : undefined}
+        />
 
-        {/* Bidirectional Chargers */}
+        {/* Bus Fleet + Charger */}
         <div className="flex flex-col items-center gap-1">
-          <div className={`relative p-2 md:p-3 rounded-2xl shadow-lg transition-all duration-500 ${
-            mode === "grid-import" ? 'bg-blue-500 text-white' : 
-            mode === "v2f" ? 'bg-green-500 text-white' : 
-            'bg-purple-500 text-white'
-          }`}>
+          <div className="relative p-2 md:p-3 rounded-2xl bg-primary text-primary-foreground shadow-lg">
             <BatteryCharging className="h-5 w-5 md:h-6 md:w-6" />
             <Zap className="absolute -top-1 -right-1 h-3 w-3 text-yellow-300 animate-pulse" />
           </div>
-          <span className="text-[8px] md:text-[10px] font-medium text-foreground">DC Fast Chargers</span>
-          <span className="text-[7px] md:text-[9px] text-muted-foreground">Bidirectional</span>
-        </div>
-
-        {/* Chargers ↔ Trucks Flow */}
-        <div className="flex flex-col items-center gap-1">
-          <EnergyFlow 
-            direction={mode === "grid-import" ? "right" : "left"} 
-            active={true} 
-            color={mode === "grid-import" ? "bg-blue-500" : "bg-green-500"}
-          />
-          <div className="text-[7px] md:text-[9px] font-mono text-muted-foreground">
-            {mode === "grid-import" ? '→ 37.5 kW/truck' : '← 30 kW/truck'}
-          </div>
-        </div>
-
-        {/* Electric Truck Fleet */}
-        <div className="flex flex-col items-center gap-1">
-          <div className="grid grid-cols-2 gap-1">
-            {truckSOCs.map((soc, index) => (
-              <TruckWithBattery 
-                key={index} 
-                soc={Math.round(soc)} 
-                index={index} 
-                isActive={mode !== "grid-import"}
-              />
+          <div className="flex gap-1 mt-1">
+            {socs.map((s, i) => (
+              <BusIcon key={i} soc={Math.round(s)} active={discharging} />
             ))}
           </div>
-          <span className="text-[8px] md:text-[10px] font-medium text-foreground mt-1">EV Fleet</span>
+          <span className="text-[8px] md:text-[10px] font-medium text-foreground">eBus Fleet</span>
         </div>
 
-        {/* Trucks → Facility Flow (V2F) */}
-        <div className="flex flex-col items-center gap-1">
-          <EnergyFlow 
-            direction="right" 
-            active={mode === "v2f"} 
-            color="bg-green-500"
-          />
-          {mode === "v2f" && (
-            <span className="text-[7px] md:text-[9px] font-mono text-green-500">→ 80 kW</span>
-          )}
-        </div>
+        {/* Buses → Building flow */}
+        <FlowArrow
+          direction="right"
+          active={mode === "v2b"}
+          label={mode === "v2b" ? "80 kW" : undefined}
+        />
 
-        {/* Logistics Facility */}
+        {/* Office Building */}
         <div className="flex flex-col items-center gap-1">
-          <div className={`relative p-2 md:p-3 rounded-xl bg-card border shadow-md transition-all duration-500 ${
-            mode === "v2f" ? 'border-green-500/50 shadow-green-500/20' : 'border-border'
-          }`}>
-            <Factory className="h-5 w-5 md:h-7 md:w-7 text-slate-600" />
-            {mode === "v2f" && (
-              <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse" />
-            )}
+          <div className={`p-2 md:p-3 rounded-xl bg-card border shadow-sm transition-all duration-500 ${mode === "v2b" ? 'border-primary/50 shadow-primary/20' : 'border-border'}`}>
+            <Building2 className="h-5 w-5 md:h-7 md:w-7 text-muted-foreground" />
+            {mode === "v2b" && <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-primary rounded-full animate-pulse" />}
           </div>
-          <span className="text-[8px] md:text-[10px] font-medium text-foreground">Facility</span>
-          <div className={`text-[7px] md:text-[9px] font-mono ${mode === "v2f" ? 'text-green-500' : 'text-muted-foreground'}`}>
-            {mode === "v2f" ? 'V2F Active' : 'Grid Power'}
-          </div>
+          <span className="text-[8px] md:text-[10px] font-medium text-foreground">Office</span>
         </div>
       </div>
 
-      {/* Mode Selector */}
+      {/* Mode selector */}
       <div className="mt-4 flex justify-center gap-2 px-4">
-        {(Object.keys(modeConfig) as EnergyMode[]).map((m) => (
+        {modes.map(m => (
           <button
-            key={m}
-            onClick={() => setMode(m)}
-            className={`px-2 py-1 rounded-full text-[8px] md:text-[10px] font-medium transition-all ${
-              mode === m 
-                ? `${modeConfig[m].bgColor} ${modeConfig[m].color} border ${modeConfig[m].borderColor}` 
-                : 'bg-muted/50 text-muted-foreground hover:bg-muted'
+            key={m.key}
+            onClick={() => setMode(m.key)}
+            className={`px-2.5 py-1 rounded-full text-[9px] md:text-[10px] font-medium transition-all ${
+              mode === m.key ? 'bg-primary/15 text-primary border border-primary/30' : 'bg-muted/50 text-muted-foreground hover:bg-muted'
             }`}
           >
-            {modeConfig[m].label}
+            {m.label}
           </button>
         ))}
       </div>
 
-      {/* Bottom Description */}
-      <div className="mt-3 text-center px-4">
-        <p className="text-[9px] md:text-xs text-muted-foreground">
-          <span className="text-primary font-medium">Bidirectional DC Fast Charging</span> enables fleet-to-facility (V2F) and grid stabilization (V2G) services
-        </p>
-      </div>
+      <p className="mt-3 text-center text-[9px] md:text-xs text-muted-foreground px-4">
+        <span className="text-primary font-medium">Electric buses as energy assets</span> — powering buildings (V2B) and stabilizing the grid (V2G)
+      </p>
     </div>
   );
 }
