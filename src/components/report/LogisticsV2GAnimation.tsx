@@ -50,7 +50,19 @@ export function LogisticsV2GAnimation() {
           <span className="text-[6px] md:text-[8px] text-muted-foreground">Grid Inverters</span>
         </div>
 
-        {/* Chargers ↔ Sites & Buildings */}
+        {/* Chargers ↔ Grid */}
+        <BiFlow label="V2G" />
+
+        {/* Power Grid (center - delivers to both chargers and buildings) */}
+        <div className="flex flex-col items-center gap-1 shrink-0">
+          <div className="p-2 md:p-3 rounded-xl bg-card border border-border shadow-sm">
+            <Zap className="h-5 w-5 md:h-7 md:w-7 text-primary" />
+          </div>
+          <span className="text-[7px] md:text-[10px] font-medium text-foreground">Power Grid</span>
+          <span className="text-[6px] md:text-[8px] text-muted-foreground">V2G Services</span>
+        </div>
+
+        {/* Grid ↔ Sites & Buildings */}
         <BiFlow label="V2B/V2H" />
 
         {/* Sites & Buildings */}
@@ -60,18 +72,6 @@ export function LogisticsV2GAnimation() {
           </div>
           <span className="text-[7px] md:text-[10px] font-medium text-foreground">Sites & Buildings</span>
           <span className="text-[6px] md:text-[8px] text-muted-foreground">V2B / V2H</span>
-        </div>
-
-        {/* Sites ↔ Grid */}
-        <BiFlow label="V2G" />
-
-        {/* Power Grid */}
-        <div className="flex flex-col items-center gap-1 shrink-0">
-          <div className="p-2 md:p-3 rounded-xl bg-card border border-border shadow-sm">
-            <Zap className="h-5 w-5 md:h-7 md:w-7 text-primary" />
-          </div>
-          <span className="text-[7px] md:text-[10px] font-medium text-foreground">Power Grid</span>
-          <span className="text-[6px] md:text-[8px] text-muted-foreground">V2G Services</span>
         </div>
       </div>
 
