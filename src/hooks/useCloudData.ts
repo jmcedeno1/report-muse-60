@@ -90,15 +90,6 @@ export function usePatentFamilies() {
     },
   });
 }
-        .from("regulations")
-        .select("*")
-        .order("publication_date", { ascending: false, nullsFirst: false })
-        .limit(limit);
-      if (error) throw error;
-      return (data ?? []) as Regulation[];
-    },
-  });
-}
 
 const STALE = 5 * 60 * 1000;
 
