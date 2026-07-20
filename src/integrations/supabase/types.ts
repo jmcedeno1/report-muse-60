@@ -52,6 +52,51 @@ export type Database = {
           },
         ]
       }
+      market_stats: {
+        Row: {
+          category: string | null
+          country: string
+          created_at: string
+          id: string
+          metric: string
+          raw: Json | null
+          region: string | null
+          source: string
+          unit: string | null
+          updated_at: string
+          value: number
+          year: number
+        }
+        Insert: {
+          category?: string | null
+          country: string
+          created_at?: string
+          id?: string
+          metric: string
+          raw?: Json | null
+          region?: string | null
+          source?: string
+          unit?: string | null
+          updated_at?: string
+          value: number
+          year: number
+        }
+        Update: {
+          category?: string | null
+          country?: string
+          created_at?: string
+          id?: string
+          metric?: string
+          raw?: Json | null
+          region?: string | null
+          source?: string
+          unit?: string | null
+          updated_at?: string
+          value?: number
+          year?: number
+        }
+        Relationships: []
+      }
       news: {
         Row: {
           created_at: string
@@ -274,6 +319,99 @@ export type Database = {
           taxonomy_tags?: string[] | null
           title?: string | null
           uid?: string
+          updated_at?: string
+          url?: string | null
+          year?: number | null
+        }
+        Relationships: []
+      }
+      regulations: {
+        Row: {
+          agency: string | null
+          created_at: string
+          doc_type: string | null
+          id: string
+          jurisdiction: string
+          publication_date: string | null
+          raw: Json | null
+          source: string
+          summary: string | null
+          title: string
+          uid: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          agency?: string | null
+          created_at?: string
+          doc_type?: string | null
+          id?: string
+          jurisdiction: string
+          publication_date?: string | null
+          raw?: Json | null
+          source: string
+          summary?: string | null
+          title: string
+          uid: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          agency?: string | null
+          created_at?: string
+          doc_type?: string | null
+          id?: string
+          jurisdiction?: string
+          publication_date?: string | null
+          raw?: Json | null
+          source?: string
+          summary?: string | null
+          title?: string
+          uid?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      standards: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          organization: string
+          region: string | null
+          scope: string | null
+          status: string | null
+          taxonomy_tags: string[] | null
+          title: string
+          updated_at: string
+          url: string | null
+          year: number | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          organization: string
+          region?: string | null
+          scope?: string | null
+          status?: string | null
+          taxonomy_tags?: string[] | null
+          title: string
+          updated_at?: string
+          url?: string | null
+          year?: number | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          organization?: string
+          region?: string | null
+          scope?: string | null
+          status?: string | null
+          taxonomy_tags?: string[] | null
+          title?: string
           updated_at?: string
           url?: string | null
           year?: number | null
