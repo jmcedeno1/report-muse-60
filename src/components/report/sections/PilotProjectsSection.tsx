@@ -4,8 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Calendar, Users, Zap, Globe, Database, AlertTriangle, DollarSign, Loader2 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
-import { usePilots, useFailureModes } from "@/hooks/useExternalData";
-import type { Pilot } from "@/integrations/external-supabase/client";
+import { usePilots, useFailureModes, type Pilot } from "@/hooks/useCloudData";
 
 type Region = "all" | "Europe" | "North America" | "Asia-Pacific" | "Other";
 type Application = "all" | "V2G" | "V2H" | "V2B" | "V2X";
