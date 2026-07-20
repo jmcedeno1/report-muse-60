@@ -91,6 +91,34 @@ export function usePatentFamilies() {
   });
 }
 
+/* ---------- patent family — full patent rows for a family (for detail popup) ---------- */
+export type PatentFamilyRow = {
+  family: string;
+  patent_id: string;
+  year: number | null;
+  orgs: string[] | null;
+  title: string | null;
+  abstract: string | null;
+  url: string | null;
+};
+
+export function usePatentFamilyRows(family: string | null) {
+  return useQuery({
+    queryKey: ["cloud", "patent_family_full", family],
+    enabled: !!family,
+    staleTime: 10 * 60 * 1000,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("patent_family_full" as never)
+        .select("family,patent_id,year,orgs,title,abstract,url")
+        .eq("family", family as string)
+        .limit(10000);
+      if (error) throw error;
+      return (data ?? []) as PatentFamilyRow[];
+    },
+  });
+}
+
 const STALE = 5 * 60 * 1000;
 
 /* ---------- corpus summary ---------- */
