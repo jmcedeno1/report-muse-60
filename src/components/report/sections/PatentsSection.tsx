@@ -32,7 +32,7 @@ export function PatentsSection() {
   const topOrgs = usePatentsTopOrgs(8);
   const topCountries = usePatentsTopCountries(8);
   const themes = usePatentsThemes(8);
-  const topCited = usePatentsTop(15);
+  const families = usePatentFamilies();
 
   const total = counts.data?.patents ?? 0;
   const years = byYear.data ?? [];
