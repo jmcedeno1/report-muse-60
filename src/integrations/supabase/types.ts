@@ -459,6 +459,18 @@ export type Database = {
         }
         Relationships: []
       }
+      patent_family_full: {
+        Row: {
+          abstract: string | null
+          family: string | null
+          orgs: string[] | null
+          patent_id: string | null
+          title: string | null
+          url: string | null
+          year: number | null
+        }
+        Relationships: []
+      }
       patents_by_year: {
         Row: {
           count: number | null
