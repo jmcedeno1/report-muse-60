@@ -282,7 +282,86 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      corpus_summary: {
+        Row: {
+          failure_modes: number | null
+          news: number | null
+          patents: number | null
+          pilots: number | null
+          publications: number | null
+        }
+        Relationships: []
+      }
+      news_by_country: {
+        Row: {
+          count: number | null
+          country: string | null
+        }
+        Relationships: []
+      }
+      news_by_domain: {
+        Row: {
+          count: number | null
+          domain: string | null
+        }
+        Relationships: []
+      }
+      patents_by_year: {
+        Row: {
+          count: number | null
+          year: number | null
+        }
+        Relationships: []
+      }
+      patents_themes: {
+        Row: {
+          count: number | null
+          theme: string | null
+        }
+        Relationships: []
+      }
+      patents_top_countries: {
+        Row: {
+          count: number | null
+          country: string | null
+        }
+        Relationships: []
+      }
+      patents_top_orgs: {
+        Row: {
+          count: number | null
+          name: string | null
+        }
+        Relationships: []
+      }
+      publications_by_year: {
+        Row: {
+          count: number | null
+          year: number | null
+        }
+        Relationships: []
+      }
+      publications_themes: {
+        Row: {
+          count: number | null
+          theme: string | null
+        }
+        Relationships: []
+      }
+      publications_top_countries: {
+        Row: {
+          count: number | null
+          country: string | null
+        }
+        Relationships: []
+      }
+      publications_top_orgs: {
+        Row: {
+          count: number | null
+          name: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
