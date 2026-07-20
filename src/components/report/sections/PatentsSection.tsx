@@ -188,13 +188,19 @@ export function PatentsSection() {
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 {(families.data ?? []).map((f) => (
-                  <FamilyCard key={f.family} f={f} />
+                  <FamilyCard key={f.family} f={f} onClick={() => setSelectedFamily(f)} />
                 ))}
               </div>
             </>
           )}
         </CardContent>
       </Card>
+
+      <PatentFamilyDetailDialog
+        family={selectedFamily}
+        open={!!selectedFamily}
+        onOpenChange={(o) => !o && setSelectedFamily(null)}
+      />
     </section>
   );
 }
