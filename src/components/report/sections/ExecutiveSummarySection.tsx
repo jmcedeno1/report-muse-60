@@ -1,7 +1,9 @@
 import { executiveSummary } from "@/data/reportData";
 import { StatCard } from "../StatCard";
 import { LogisticsV2GAnimation } from "../LogisticsV2GAnimation";
-import { Zap } from "lucide-react";
+import { Zap, Database } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { useCorpusCounts } from "@/hooks/useCloudData";
 
 export function ExecutiveSummarySection() {
   const paragraphs = executiveSummary.summary.split("\n\n");
