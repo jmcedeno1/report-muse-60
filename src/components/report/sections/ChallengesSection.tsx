@@ -2,7 +2,17 @@ import { challengesAndFuture } from "@/data/reportData";
 import { CollapsibleCard } from "../CollapsibleCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, Rocket, TrendingUp, TrendingDown, Minus } from "lucide-react";
+import { AlertTriangle, Rocket, TrendingUp, TrendingDown, Minus, Database, Loader2 } from "lucide-react";
+import { useFailureModes } from "@/hooks/useCloudData";
+import { useMemo } from "react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+
+const SEVERITY_COLORS: Record<string, string> = {
+  High: "hsl(0, 72%, 55%)",
+  Medium: "hsl(38, 92%, 55%)",
+  Low: "hsl(220, 15%, 55%)",
+};
+const BAR_COLOR = "hsl(232, 32%, 38%)";
 
 const getTrendIcon = (trend: string) => {
   if (trend.toLowerCase().includes("improving")) {
