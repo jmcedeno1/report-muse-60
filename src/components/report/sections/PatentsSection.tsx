@@ -35,6 +35,7 @@ export function PatentsSection() {
   const topCountries = usePatentsTopCountries(8);
   const themes = usePatentsThemes(8);
   const families = usePatentFamilies();
+  const [selectedFamily, setSelectedFamily] = useState<PatentFamily | null>(null);
 
   const total = counts.data?.patents ?? 0;
   const years = byYear.data ?? [];
