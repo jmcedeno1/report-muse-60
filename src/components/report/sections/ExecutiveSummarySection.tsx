@@ -7,6 +7,14 @@ import { useCorpusCounts } from "@/hooks/useCloudData";
 
 export function ExecutiveSummarySection() {
   const paragraphs = executiveSummary.summary.split("\n\n");
+  const counts = useCorpusCounts();
+  const corpusStats = [
+    { label: "Patents (Lens.org)", value: counts.data?.patents.toLocaleString() ?? "—" },
+    { label: "Publications (OpenAlex)", value: counts.data?.publications.toLocaleString() ?? "—" },
+    { label: "Pilot projects", value: counts.data?.pilots.toLocaleString() ?? "—" },
+    { label: "News articles (GDELT)", value: counts.data?.news.toLocaleString() ?? "—" },
+  ];
+  
   
   return (
     <section id="overview" className="scroll-mt-8">
