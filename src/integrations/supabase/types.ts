@@ -14,7 +14,272 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      failure_modes: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          id: string
+          pilot_id: string | null
+          severity: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          pilot_id?: string | null
+          severity?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          pilot_id?: string | null
+          severity?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "failure_modes_pilot_id_fkey"
+            columns: ["pilot_id"]
+            isOneToOne: false
+            referencedRelation: "pilots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      news: {
+        Row: {
+          created_at: string
+          domain: string | null
+          id: string
+          language: string | null
+          query: string | null
+          raw: Json | null
+          seen_date: string | null
+          social_image: string | null
+          source_country: string | null
+          taxonomy_tags: string[] | null
+          title: string | null
+          tone: number | null
+          uid: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          domain?: string | null
+          id?: string
+          language?: string | null
+          query?: string | null
+          raw?: Json | null
+          seen_date?: string | null
+          social_image?: string | null
+          source_country?: string | null
+          taxonomy_tags?: string[] | null
+          title?: string | null
+          tone?: number | null
+          uid: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          domain?: string | null
+          id?: string
+          language?: string | null
+          query?: string | null
+          raw?: Json | null
+          seen_date?: string | null
+          social_image?: string | null
+          source_country?: string | null
+          taxonomy_tags?: string[] | null
+          title?: string | null
+          tone?: number | null
+          uid?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      patents: {
+        Row: {
+          abstract: string | null
+          citations: number | null
+          countries: string[] | null
+          cpc_classes: string[] | null
+          created_at: string
+          family_id: string | null
+          id: string
+          orgs: string[] | null
+          publication_number: string | null
+          taxonomy_tags: string[] | null
+          title: string | null
+          uid: string
+          updated_at: string
+          url: string | null
+          year: number | null
+        }
+        Insert: {
+          abstract?: string | null
+          citations?: number | null
+          countries?: string[] | null
+          cpc_classes?: string[] | null
+          created_at?: string
+          family_id?: string | null
+          id?: string
+          orgs?: string[] | null
+          publication_number?: string | null
+          taxonomy_tags?: string[] | null
+          title?: string | null
+          uid: string
+          updated_at?: string
+          url?: string | null
+          year?: number | null
+        }
+        Update: {
+          abstract?: string | null
+          citations?: number | null
+          countries?: string[] | null
+          cpc_classes?: string[] | null
+          created_at?: string
+          family_id?: string | null
+          id?: string
+          orgs?: string[] | null
+          publication_number?: string | null
+          taxonomy_tags?: string[] | null
+          title?: string | null
+          uid?: string
+          updated_at?: string
+          url?: string | null
+          year?: number | null
+        }
+        Relationships: []
+      }
+      pilots: {
+        Row: {
+          country: string | null
+          created_at: string
+          description: string | null
+          end_date: string | null
+          evidence_uid: string | null
+          failure_mode_count: number | null
+          fleet_size: number | null
+          gap_categories: string[] | null
+          id: string
+          investment_usd: number | null
+          latitude: number | null
+          location: string | null
+          longitude: number | null
+          name: string
+          partners: string[] | null
+          power_kw: number | null
+          start_date: string | null
+          status: string | null
+          updated_at: string
+          v2x_type: string[] | null
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          evidence_uid?: string | null
+          failure_mode_count?: number | null
+          fleet_size?: number | null
+          gap_categories?: string[] | null
+          id?: string
+          investment_usd?: number | null
+          latitude?: number | null
+          location?: string | null
+          longitude?: number | null
+          name: string
+          partners?: string[] | null
+          power_kw?: number | null
+          start_date?: string | null
+          status?: string | null
+          updated_at?: string
+          v2x_type?: string[] | null
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          evidence_uid?: string | null
+          failure_mode_count?: number | null
+          fleet_size?: number | null
+          gap_categories?: string[] | null
+          id?: string
+          investment_usd?: number | null
+          latitude?: number | null
+          location?: string | null
+          longitude?: number | null
+          name?: string
+          partners?: string[] | null
+          power_kw?: number | null
+          start_date?: string | null
+          status?: string | null
+          updated_at?: string
+          v2x_type?: string[] | null
+        }
+        Relationships: []
+      }
+      publications: {
+        Row: {
+          abstract: string | null
+          citations: number | null
+          countries: string[] | null
+          created_at: string
+          doi: string | null
+          id: string
+          orgs: string[] | null
+          source: string | null
+          taxonomy_tags: string[] | null
+          title: string | null
+          uid: string
+          updated_at: string
+          url: string | null
+          year: number | null
+        }
+        Insert: {
+          abstract?: string | null
+          citations?: number | null
+          countries?: string[] | null
+          created_at?: string
+          doi?: string | null
+          id?: string
+          orgs?: string[] | null
+          source?: string | null
+          taxonomy_tags?: string[] | null
+          title?: string | null
+          uid: string
+          updated_at?: string
+          url?: string | null
+          year?: number | null
+        }
+        Update: {
+          abstract?: string | null
+          citations?: number | null
+          countries?: string[] | null
+          created_at?: string
+          doi?: string | null
+          id?: string
+          orgs?: string[] | null
+          source?: string | null
+          taxonomy_tags?: string[] | null
+          title?: string | null
+          uid?: string
+          updated_at?: string
+          url?: string | null
+          year?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
