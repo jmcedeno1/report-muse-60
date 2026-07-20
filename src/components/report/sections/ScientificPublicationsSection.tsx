@@ -10,7 +10,9 @@ import {
 import {
   usePublicationsByYear, usePublicationsTop, usePublicationsTopOrgs,
   usePublicationsTopCountries, usePublicationsThemes, useCorpusCounts,
+  usePublicationsWithTags,
 } from "@/hooks/useCloudData";
+import { useMemo } from "react";
 
 const CHART_COLORS = [
   "hsl(232, 32%, 38%)",
