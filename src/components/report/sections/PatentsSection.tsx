@@ -231,12 +231,16 @@ function MaturityLegend() {
   );
 }
 
-function FamilyCard({ f }: { f: PatentFamily }) {
+function FamilyCard({ f, onClick }: { f: PatentFamily; onClick: () => void }) {
   const s = MATURITY_STYLES[f.maturity];
   const Icon = s.icon;
   const momentum = f.momentum ?? null;
   return (
-    <div className={`rounded-lg border border-border bg-background p-4 ring-1 ${s.ringClass}`}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={`w-full text-left rounded-lg border border-border bg-background p-4 ring-1 ${s.ringClass} transition-all hover:shadow-md hover:border-primary/40 hover:-translate-y-0.5 cursor-pointer`}
+    >
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
           <p className="font-semibold text-foreground text-sm leading-tight">{f.family}</p>
