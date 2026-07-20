@@ -1,70 +1,57 @@
-import { useState } from "react";
-import { scientificPublicationsData } from "@/data/reportData";
-import { CollapsibleCard } from "@/components/report/CollapsibleCard";
-import { FilterTabs } from "@/components/report/FilterTabs";
-import { 
-  BookOpen, TrendingUp, Users, Lightbulb, FileText, 
-  Globe, BarChart3, Award, Quote, Building, ExternalLink, Lock, Unlock
-} from "lucide-react";
+import { BookOpen, TrendingUp, FileText, Globe, BarChart3, Quote, Building, ExternalLink, Loader2, Database } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  Tooltip, 
-  ResponsiveContainer, 
-  PieChart, 
-  Pie, 
-  Cell,
-  AreaChart,
-  Area
+import {
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area,
 } from "recharts";
-
-type ThemeFilter = "all" | "Technology" | "Grid Integration" | "Battery & BMS" | "AI & Optimization" | "Economics" | "Wireless & WPT";
-
-const themeFilters = [
-  { value: "all", label: "All Themes" },
-  { value: "Technology", label: "Technology" },
-  { value: "Grid Integration", label: "Grid Integration" },
-  { value: "Battery & BMS", label: "Battery & BMS" },
-  { value: "AI & Optimization", label: "AI & Optimization" },
-  { value: "Economics", label: "Economics" },
-  { value: "Wireless & WPT", label: "Wireless & WPT" },
-];
+import {
+  usePublicationsByYear, usePublicationsTop, usePublicationsTopOrgs,
+  usePublicationsTopCountries, usePublicationsThemes, useCorpusCounts,
+} from "@/hooks/useCloudData";
 
 const CHART_COLORS = [
-  "hsl(var(--primary))", 
-  "hsl(var(--accent))", 
-  "hsl(var(--emrc-light))", 
-  "hsl(var(--muted-foreground))", 
-  "hsl(var(--secondary-foreground))"
+  "hsl(232, 32%, 38%)",
+  "hsl(231, 97%, 75%)",
+  "hsl(231, 100%, 82%)",
+  "hsl(330, 65%, 55%)",
+  "hsl(210, 60%, 50%)",
+  "hsl(220, 15%, 55%)",
 ];
 
-const summaryMetrics = [
-  { label: "Total Publications", value: scientificPublicationsData.overview.totalPublications, icon: FileText },
-  { label: "Journal Articles", value: scientificPublicationsData.overview.journalArticles, icon: BookOpen },
-  { label: "Conference Papers", value: scientificPublicationsData.overview.conferenceProceedings, icon: Users },
-  { label: "Publication Growth", value: scientificPublicationsData.overview.publicationGrowth, icon: TrendingUp },
-  { label: "Top Journals", value: "8", icon: Award },
-  { label: "Emerging Topics", value: "8", icon: Lightbulb },
-];
+function LoadingBlock() {
+  return (
+    <div className="flex items-center justify-center h-40 text-sm text-muted-foreground">
+      <Loader2 className="h-4 w-4 mr-2 animate-spin" /> Loading
+    </div>
+  );
+}
 
 export function ScientificPublicationsSection() {
-  const [selectedTheme, setSelectedTheme] = useState<ThemeFilter>("all");
+  const counts = useCorpusCounts();
+  const byYear = usePublicationsByYear();
+  const topOrgs = usePublicationsTopOrgs(8);
+  const topCountries = usePublicationsTopCountries(8);
+  const themes = usePublicationsThemes(8);
+  const topCited = usePublicationsTop(15);
 
-  const filteredPublications = selectedTheme === "all"
-    ? scientificPublicationsData.keyPublications
-    : scientificPublicationsData.keyPublications.filter((p) => p.theme === selectedTheme);
+  const total = counts.data?.publications ?? 0;
+  const years = byYear.data ?? [];
+  const yearsSpan = years.length ? `${years[0].year}–${years[years.length - 1].year}` : "—";
+  const peakYear = years.length
+    ? years.reduce((a, b) => (b.count > a.count ? b : a), years[0])
+    : null;
+
+  const summaryMetrics = [
+    { label: "Publications in corpus", value: total.toLocaleString(), icon: FileText },
+    { label: "Coverage", value: yearsSpan, icon: TrendingUp },
+    { label: "Peak year", value: peakYear ? `${peakYear.year}` : "—", icon: BarChart3 },
+    { label: "Countries", value: (topCountries.data?.length ?? 0).toString(), icon: Globe },
+    { label: "Institutions (top)", value: (topOrgs.data?.length ?? 0).toString(), icon: Building },
+    { label: "Themes", value: (themes.data?.length ?? 0).toString(), icon: BookOpen },
+  ];
 
   return (
     <section id="publications" className="scroll-mt-8">
@@ -75,298 +62,155 @@ export function ScientificPublicationsSection() {
         <h2 className="text-2xl md:text-3xl font-bold text-foreground">
           Scientific Publications
         </h2>
+        <Badge variant="outline" className="ml-auto text-xs">
+          <Database className="h-3 w-3 mr-1" /> Live from verified corpus
+        </Badge>
       </div>
 
       <p className="text-muted-foreground mb-8 leading-relaxed">
-        {scientificPublicationsData.overview.summary}
+        Publications are drawn from an OpenAlex + Lens.org search of bidirectional
+        charging and V2G topics (2000–present), including grid integration, battery
+        management, wireless power transfer, market design, and interoperability
+        standards. Aggregations below are recomputed at page load from the raw
+        records.
       </p>
 
-      {/* Summary Dashboard */}
       <Card className="mb-8 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
             <BarChart3 className="h-5 w-5 text-primary" />
             Publication Landscape Summary
-            <Badge variant="outline" className="ml-2 text-xs font-normal">
-              <Globe className="h-3 w-3 mr-1" />
-              SCOPUS Database
-            </Badge>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Key Metrics Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {summaryMetrics.map((metric) => {
-              const IconComponent = metric.icon;
+            {summaryMetrics.map((m) => {
+              const Icon = m.icon;
               return (
-                <div
-                  key={metric.label}
-                  className="bg-background rounded-lg p-4 text-center border border-border/50"
-                >
-                  <IconComponent className="h-6 w-6 mx-auto mb-2 text-primary" />
-                  <p className="text-2xl font-bold text-foreground">{metric.value}</p>
-                  <p className="text-xs text-muted-foreground">{metric.label}</p>
+                <div key={m.label} className="bg-background rounded-lg p-4 text-center border border-border/50">
+                  <Icon className="h-6 w-6 mx-auto mb-2 text-primary" />
+                  <p className="text-2xl font-bold text-foreground">{m.value}</p>
+                  <p className="text-xs text-muted-foreground">{m.label}</p>
                 </div>
               );
             })}
           </div>
 
-          {/* Charts Row */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* Publication Trend Area Chart */}
-            <div className="bg-background rounded-lg p-4 border border-border/50">
-              <h4 className="font-semibold text-sm mb-4 text-foreground">Publications Over Time</h4>
-              <ResponsiveContainer width="100%" height={150}>
-                <AreaChart data={scientificPublicationsData.publicationsByYear}>
+          <div className="bg-background rounded-lg p-4 border border-border/50">
+            <h4 className="font-semibold text-sm mb-4 text-foreground">Publications per year</h4>
+            {byYear.isLoading ? <LoadingBlock /> : (
+              <ResponsiveContainer width="100%" height={260}>
+                <AreaChart data={years}>
                   <defs>
-                    <linearGradient id="publicationGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4}/>
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                    <linearGradient id="pubYearGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor={CHART_COLORS[0]} stopOpacity={0.4} />
+                      <stop offset="95%" stopColor={CHART_COLORS[0]} stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <XAxis 
-                    dataKey="year" 
-                    tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis hide />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: "hsl(var(--background))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: "8px"
-                    }}
-                    formatter={(value: number) => [`${value} papers`, "Publications"]}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="count" 
-                    stroke="hsl(var(--primary))" 
-                    strokeWidth={2}
-                    fill="url(#publicationGradient)" 
-                  />
+                  <XAxis dataKey="year" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} width={40} />
+                  <Tooltip contentStyle={{ backgroundColor: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8 }} formatter={(v: number) => [`${v} papers`, "Publications"]} labelFormatter={(l) => `Year ${l}`} />
+                  <Area type="monotone" dataKey="count" stroke={CHART_COLORS[0]} strokeWidth={2} fill="url(#pubYearGrad)" />
                 </AreaChart>
               </ResponsiveContainer>
+            )}
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-background rounded-lg p-4 border border-border/50">
+              <h4 className="font-semibold text-sm mb-4 text-foreground">Top institutions</h4>
+              {topOrgs.isLoading ? <LoadingBlock /> : (
+                <ResponsiveContainer width="100%" height={220}>
+                  <BarChart data={topOrgs.data ?? []} layout="vertical" margin={{ left: 10 }}>
+                    <XAxis type="number" hide />
+                    <YAxis dataKey="name" type="category" width={140} tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
+                    <Tooltip contentStyle={{ backgroundColor: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8 }} formatter={(v: number) => [`${v} papers`, "Papers"]} />
+                    <Bar dataKey="count" fill={CHART_COLORS[0]} radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
             </div>
 
-            {/* Top Institutions Bar Chart */}
             <div className="bg-background rounded-lg p-4 border border-border/50">
-              <h4 className="font-semibold text-sm mb-4 text-foreground">Top Research Institutions</h4>
-              <ResponsiveContainer width="100%" height={150}>
-                <BarChart data={scientificPublicationsData.topResearchInstitutions.slice(0, 5)} layout="vertical">
-                  <XAxis type="number" hide />
-                  <YAxis 
-                    dataKey="name" 
-                    type="category" 
-                    width={70} 
-                    tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: "hsl(var(--background))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: "8px"
-                    }}
-                    formatter={(value: number) => [`${value} publications`, "Papers"]}
-                  />
-                  <Bar dataKey="publications" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+              <h4 className="font-semibold text-sm mb-4 text-foreground">Top countries</h4>
+              {topCountries.isLoading ? <LoadingBlock /> : (
+                <ResponsiveContainer width="100%" height={220}>
+                  <BarChart data={topCountries.data ?? []} layout="vertical" margin={{ left: 10 }}>
+                    <XAxis type="number" hide />
+                    <YAxis dataKey="country" type="category" width={60} tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
+                    <Tooltip contentStyle={{ backgroundColor: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8 }} formatter={(v: number) => [`${v} papers`, "Papers"]} />
+                    <Bar dataKey="count" fill={CHART_COLORS[1]} radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
             </div>
+          </div>
 
-            {/* Thematic Distribution Pie Chart */}
+          {(themes.data?.length ?? 0) > 0 && (
             <div className="bg-background rounded-lg p-4 border border-border/50">
-              <h4 className="font-semibold text-sm mb-4 text-foreground">By Research Theme</h4>
-              <ResponsiveContainer width="100%" height={150}>
+              <h4 className="font-semibold text-sm mb-4 text-foreground">Thematic distribution</h4>
+              <ResponsiveContainer width="100%" height={200}>
                 <PieChart>
-                  <Pie
-                    data={scientificPublicationsData.thematicDistribution}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={35}
-                    outerRadius={55}
-                    dataKey="count"
-                    nameKey="theme"
-                  >
-                    {scientificPublicationsData.thematicDistribution.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                  <Pie data={themes.data ?? []} cx="50%" cy="50%" innerRadius={50} outerRadius={80} dataKey="count" nameKey="theme" label={(e) => e.theme}>
+                    {(themes.data ?? []).map((_, i) => (
+                      <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: "hsl(var(--background))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: "8px"
-                    }}
-                    formatter={(value: number, name: string, props: any) => [`${value} papers`, props.payload.theme]}
-                  />
+                  <Tooltip contentStyle={{ backgroundColor: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8 }} formatter={(v: number, _n, p: any) => [`${v} papers`, p.payload.theme]} />
                 </PieChart>
               </ResponsiveContainer>
-              <div className="flex flex-wrap justify-center gap-2 text-xs mt-2">
-                {scientificPublicationsData.thematicDistribution.slice(0, 3).map((item, i) => (
-                  <span key={item.theme} className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: CHART_COLORS[i] }} />
-                    {item.theme}
-                  </span>
-                ))}
-              </div>
             </div>
-          </div>
-
-          {/* Top Journals */}
-          <div className="bg-background rounded-lg p-4 border border-border/50">
-            <h4 className="font-semibold text-sm mb-3 text-foreground">Leading Journals</h4>
-            <div className="flex flex-wrap gap-2">
-              {scientificPublicationsData.overview.topJournals.map((journal) => (
-                <Badge key={journal} variant="secondary" className="text-sm">
-                  <BookOpen className="h-3 w-3 mr-1" />
-                  {journal}
-                </Badge>
-              ))}
-            </div>
-          </div>
+          )}
         </CardContent>
       </Card>
 
-      {/* Theme Filter */}
-      <div className="mb-6">
-        <FilterTabs
-          options={themeFilters}
-          value={selectedTheme}
-          onChange={(value) => setSelectedTheme(value as ThemeFilter)}
-        />
-      </div>
-
-      {/* Key Publications */}
-      <CollapsibleCard
-        title="Landmark Publications"
-        defaultOpen={true}
-      >
-        <div className="space-y-4">
-          {filteredPublications.map((publication) => (
-            <div 
-              key={publication.id} 
-              className="p-4 rounded-lg border border-border bg-muted/30 hover:bg-muted/50 transition-colors"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <h4 className="font-semibold text-foreground leading-tight mb-1">
-                    {publication.title}
-                  </h4>
-                  <p className="text-sm text-muted-foreground mb-2">
-                    {publication.authors} ({publication.year})
-                  </p>
-                  <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <Badge variant="outline" className="text-xs">
-                      <BookOpen className="h-3 w-3 mr-1" />
-                      {publication.journal}
-                    </Badge>
-                    <Badge variant="secondary" className="text-xs">
-                      {publication.theme}
-                    </Badge>
-                    {publication.citations > 0 && (
-                      <Badge variant="default" className="text-xs">
-                        <Quote className="h-3 w-3 mr-1" />
-                        {publication.citations.toLocaleString()} citations
-                      </Badge>
-                    )}
-                    {"openAccess" in publication && (
-                      <Badge 
-                        variant={publication.openAccess !== "Subscription" ? "default" : "outline"} 
-                        className="text-xs"
-                      >
-                        {publication.openAccess !== "Subscription" ? (
-                          <Unlock className="h-3 w-3 mr-1" />
-                        ) : (
-                          <Lock className="h-3 w-3 mr-1" />
-                        )}
-                        {publication.openAccess !== "Subscription" ? "Open Access" : "Subscription"}
-                      </Badge>
-                    )}
-                  </div>
-                  <p className="text-sm text-muted-foreground italic mb-2">
-                    {publication.significance}
-                  </p>
-                  {"doi" in publication && publication.doi && (
-                    <a 
-                      href={`https://doi.org/${publication.doi}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
-                    >
-                      <ExternalLink className="h-3 w-3" />
-                      DOI: {publication.doi}
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </CollapsibleCard>
-
-      {/* Top Research Institutions Table */}
-      <div className="mt-8">
-        <CollapsibleCard
-          title="Leading Research Institutions"
-          defaultOpen={true}
-        >
-          <div className="rounded-lg border border-border overflow-hidden">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[50px]">#</TableHead>
-                  <TableHead>Institution</TableHead>
-                  <TableHead className="w-[100px] text-center">Publications</TableHead>
-                  <TableHead>Research Focus</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {scientificPublicationsData.topResearchInstitutions.map((institution, index) => (
-                  <TableRow key={institution.name}>
-                    <TableCell className="font-medium text-muted-foreground">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell className="font-medium">
-                      <div className="flex items-center gap-2">
-                        <Building className="h-4 w-4 text-primary" />
-                        {institution.name}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-center">
-                      <Badge variant="secondary">{institution.publications}</Badge>
-                    </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {institution.focus}
-                    </TableCell>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Quote className="h-5 w-5 text-primary" /> Most-cited publications in the corpus
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {topCited.isLoading ? <LoadingBlock /> : (
+            <div className="rounded-lg border border-border overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[70px]">Year</TableHead>
+                    <TableHead>Title</TableHead>
+                    <TableHead className="w-[160px]">Source</TableHead>
+                    <TableHead className="w-[90px] text-right">Citations</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </CollapsibleCard>
-      </div>
-
-      {/* Emerging Topics */}
-      <div className="mt-8 p-6 rounded-lg bg-primary/5 border border-primary/20">
-        <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-          <Lightbulb className="h-5 w-5 text-primary" />
-          Emerging Research Topics
-        </h3>
-        <div className="flex flex-wrap gap-2">
-          {scientificPublicationsData.emergingTopics.map((topic) => (
-            <Badge key={topic} variant="default" className="text-sm">
-              {topic}
-            </Badge>
-          ))}
-        </div>
-        <p className="mt-4 text-sm text-muted-foreground">
-          These emerging research topics represent the cutting edge of V2G academic inquiry, with publication activity accelerating as new interdisciplinary connections are explored.
-        </p>
-      </div>
+                </TableHeader>
+                <TableBody>
+                  {(topCited.data ?? []).map((p) => {
+                    const link = p.doi ? `https://doi.org/${p.doi}` : p.url ?? null;
+                    return (
+                      <TableRow key={p.id}>
+                        <TableCell className="text-muted-foreground">{p.year ?? "—"}</TableCell>
+                        <TableCell className="text-sm">
+                          {link ? (
+                            <a href={link} target="_blank" rel="noopener noreferrer" className="hover:underline inline-flex items-center gap-1">
+                              {p.title ?? p.uid}
+                              <ExternalLink className="h-3 w-3 shrink-0 opacity-60" />
+                            </a>
+                          ) : (
+                            p.title ?? p.uid
+                          )}
+                        </TableCell>
+                        <TableCell className="text-xs text-muted-foreground">{p.source ?? "—"}</TableCell>
+                        <TableCell className="text-right">
+                          <Badge variant="secondary">{p.citations ?? 0}</Badge>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </section>
   );
 }

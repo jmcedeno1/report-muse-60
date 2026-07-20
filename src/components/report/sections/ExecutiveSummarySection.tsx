@@ -1,10 +1,20 @@
 import { executiveSummary } from "@/data/reportData";
 import { StatCard } from "../StatCard";
 import { LogisticsV2GAnimation } from "../LogisticsV2GAnimation";
-import { Zap } from "lucide-react";
+import { Zap, Database } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { useCorpusCounts } from "@/hooks/useCloudData";
 
 export function ExecutiveSummarySection() {
   const paragraphs = executiveSummary.summary.split("\n\n");
+  const counts = useCorpusCounts();
+  const corpusStats = [
+    { label: "Patents (Lens.org)", value: counts.data?.patents.toLocaleString() ?? "—" },
+    { label: "Publications (OpenAlex)", value: counts.data?.publications.toLocaleString() ?? "—" },
+    { label: "Pilot projects", value: counts.data?.pilots.toLocaleString() ?? "—" },
+    { label: "News articles (GDELT)", value: counts.data?.news.toLocaleString() ?? "—" },
+  ];
+  
   
   return (
     <section id="overview" className="scroll-mt-8">
@@ -51,6 +61,23 @@ export function ExecutiveSummarySection() {
         {executiveSummary.keyStats.map((stat) => (
           <StatCard key={stat.label} label={stat.label} value={stat.value} />
         ))}
+      </div>
+
+      <div className="mt-8 p-5 rounded-xl border border-primary/20 bg-primary/5">
+        <div className="flex items-center gap-2 mb-3">
+          <Database className="h-4 w-4 text-primary" />
+          <p className="text-sm font-semibold text-foreground">Verified evidence base</p>
+          <Badge variant="outline" className="text-xs">live</Badge>
+        </div>
+        <p className="text-xs text-muted-foreground mb-4">
+          Numbers below are read directly from the report's Lovable Cloud database at page load.
+          Every downstream section (Patents, Publications, Pilots, News) aggregates from the same rows.
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {corpusStats.map((s) => (
+            <StatCard key={s.label} label={s.label} value={s.value} />
+          ))}
+        </div>
       </div>
     </section>
   );
