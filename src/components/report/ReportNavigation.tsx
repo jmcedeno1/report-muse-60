@@ -18,6 +18,7 @@ const iconMap: Record<string, React.ElementType> = {
   AlertTriangle,
   BookOpen,
   Shield,
+  Newspaper,
 };
 
 interface ReportNavigationProps {

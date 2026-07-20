@@ -7,6 +7,7 @@ import { PatentsSection } from "@/components/report/sections/PatentsSection";
 import { ScientificPublicationsSection } from "@/components/report/sections/ScientificPublicationsSection";
 import { MarketSection } from "@/components/report/sections/MarketSection";
 import { PilotProjectsSection } from "@/components/report/sections/PilotProjectsSection";
+import { NewsSection } from "@/components/report/sections/NewsSection";
 import { RegulatorySection } from "@/components/report/sections/RegulatorySection";
 import { ImpactSection } from "@/components/report/sections/ImpactSection";
 import { ChallengesSection } from "@/components/report/sections/ChallengesSection";
@@ -16,7 +17,7 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState("overview");
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["overview", "how-it-works", "technology", "patents", "publications", "market", "pilots", "regulatory", "impact", "challenges", "references", "report-generator"];
+      const sections = ["overview", "how-it-works", "technology", "patents", "publications", "market", "pilots", "news", "regulatory", "impact", "challenges", "references", "report-generator"];
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -43,6 +44,7 @@ const Index = () => {
           <ScientificPublicationsSection />
           <MarketSection />
           <PilotProjectsSection />
+          <NewsSection />
           <RegulatorySection />
           <ImpactSection />
           <ChallengesSection />
