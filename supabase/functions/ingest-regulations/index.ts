@@ -114,7 +114,13 @@ Deno.serve(async (req) => {
 
   try {
     const [fr, eu] = await Promise.all([fetchFederalRegister(), fetchEURLex()]);
-    const all = [...fr, ...eu];
+    const merged = [...fr, ...eu];
+    const seen = new Set<string>();
+    const all = merged.filter((r) => {
+      const uid = r.uid as string;
+      if (seen.has(uid)) return false;
+      seen.add(uid); return true;
+    });
     let inserted = 0;
     const chunk = 200;
     for (let i = 0; i < all.length; i += chunk) {
