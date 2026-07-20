@@ -1,0 +1,1 @@
+ALTER VIEW public.patent_families SET (security_invoker = true);

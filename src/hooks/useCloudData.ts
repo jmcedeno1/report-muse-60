@@ -62,6 +62,35 @@ export function useRegulations(limit = 100) {
   });
 }
 
+/* ---------- patent families ---------- */
+export type PatentFamily = {
+  family: string;
+  total: number;
+  recent: number;
+  older: number;
+  first_year: number;
+  last_year: number;
+  recent_annual_rate: number;
+  historical_annual_rate: number | null;
+  momentum: number | null;
+  maturity: "Growing" | "Active" | "Saturated" | "Emerging";
+};
+
+export function usePatentFamilies() {
+  return useQuery({
+    queryKey: ["cloud", "patent_families"],
+    staleTime: 5 * 60 * 1000,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("patent_families" as never)
+        .select("*")
+        .order("total", { ascending: false });
+      if (error) throw error;
+      return (data ?? []) as PatentFamily[];
+    },
+  });
+}
+
 const STALE = 5 * 60 * 1000;
 
 /* ---------- corpus summary ---------- */
