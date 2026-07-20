@@ -281,6 +281,6 @@ function FamilyCard({ f, onClick }: { f: PatentFamily; onClick: () => void }) {
       <p className="text-[11px] text-muted-foreground">
         {Math.round((f.recent / Math.max(f.total, 1)) * 100)}% of filings in the last 5 years
       </p>
-    </div>
+    </button>
   );
 }
