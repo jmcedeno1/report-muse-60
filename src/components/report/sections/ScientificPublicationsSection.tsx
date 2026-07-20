@@ -10,7 +10,9 @@ import {
 import {
   usePublicationsByYear, usePublicationsTop, usePublicationsTopOrgs,
   usePublicationsTopCountries, usePublicationsThemes, useCorpusCounts,
+  usePublicationsWithTags,
 } from "@/hooks/useCloudData";
+import { useMemo } from "react";
 
 const CHART_COLORS = [
   "hsl(232, 32%, 38%)",
@@ -36,6 +38,31 @@ export function ScientificPublicationsSection() {
   const topCountries = usePublicationsTopCountries(8);
   const themes = usePublicationsThemes(8);
   const topCited = usePublicationsTop(15);
+  const tagged = usePublicationsWithTags(400);
+
+  const topByTopic = useMemo(() => {
+    const rows = tagged.data ?? [];
+    const byTag = new Map<string, typeof rows>();
+    for (const p of rows) {
+      for (const t of p.taxonomy_tags ?? []) {
+        if (!t) continue;
+        const arr = byTag.get(t) ?? [];
+        arr.push(p);
+        byTag.set(t, arr);
+      }
+    }
+    return [...byTag.entries()]
+      .map(([tag, papers]) => ({
+        tag,
+        total: papers.length,
+        papers: papers
+          .slice()
+          .sort((a, b) => (b.citations ?? 0) - (a.citations ?? 0))
+          .slice(0, 3),
+      }))
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 6);
+  }, [tagged.data]);
 
   const total = counts.data?.publications ?? 0;
   const years = byYear.data ?? [];
@@ -163,6 +190,51 @@ export function ScientificPublicationsSection() {
           )}
         </CardContent>
       </Card>
+
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <BookOpen className="h-5 w-5 text-primary" /> Top papers by topic
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {tagged.isLoading ? <LoadingBlock /> : topByTopic.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No tagged publications yet.</p>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-4">
+              {topByTopic.map((group) => (
+                <div key={group.tag} className="border border-border rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-semibold text-sm text-foreground">{group.tag}</h4>
+                    <Badge variant="secondary">{group.total} papers</Badge>
+                  </div>
+                  <ul className="space-y-2">
+                    {group.papers.map((p) => {
+                      const link = p.doi ? `https://doi.org/${p.doi}` : p.url ?? null;
+                      return (
+                        <li key={p.id} className="text-sm">
+                          {link ? (
+                            <a href={link} target="_blank" rel="noreferrer" className="text-foreground hover:underline inline-flex items-start gap-1">
+                              <span className="line-clamp-2">{p.title}</span>
+                              <ExternalLink className="h-3 w-3 shrink-0 opacity-60 mt-1" />
+                            </a>
+                          ) : (
+                            <span className="text-foreground line-clamp-2">{p.title}</span>
+                          )}
+                          <div className="text-xs text-muted-foreground mt-0.5">
+                            {p.year ?? "—"} · {p.source ?? "—"} · {p.citations ?? 0} citations
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
 
       <Card>
         <CardHeader>
