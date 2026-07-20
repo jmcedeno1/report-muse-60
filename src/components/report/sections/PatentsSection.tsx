@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Shield, TrendingUp, FileText, Globe, Layers, BarChart3, Loader2, Database, Activity, Sparkles, Waves, MinusCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +9,7 @@ import {
   usePatentsByYear, usePatentsTopOrgs, usePatentsTopCountries, usePatentsThemes, useCorpusCounts,
   usePatentFamilies, type PatentFamily,
 } from "@/hooks/useCloudData";
+import { PatentFamilyDetailDialog } from "@/components/report/PatentFamilyDetailDialog";
 
 const CHART_COLORS = [
   "hsl(232, 32%, 38%)",
@@ -33,6 +35,7 @@ export function PatentsSection() {
   const topCountries = usePatentsTopCountries(8);
   const themes = usePatentsThemes(8);
   const families = usePatentFamilies();
+  const [selectedFamily, setSelectedFamily] = useState<PatentFamily | null>(null);
 
   const total = counts.data?.patents ?? 0;
   const years = byYear.data ?? [];
@@ -185,13 +188,19 @@ export function PatentsSection() {
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 {(families.data ?? []).map((f) => (
-                  <FamilyCard key={f.family} f={f} />
+                  <FamilyCard key={f.family} f={f} onClick={() => setSelectedFamily(f)} />
                 ))}
               </div>
             </>
           )}
         </CardContent>
       </Card>
+
+      <PatentFamilyDetailDialog
+        family={selectedFamily}
+        open={!!selectedFamily}
+        onOpenChange={(o) => !o && setSelectedFamily(null)}
+      />
     </section>
   );
 }
@@ -222,12 +231,16 @@ function MaturityLegend() {
   );
 }
 
-function FamilyCard({ f }: { f: PatentFamily }) {
+function FamilyCard({ f, onClick }: { f: PatentFamily; onClick: () => void }) {
   const s = MATURITY_STYLES[f.maturity];
   const Icon = s.icon;
   const momentum = f.momentum ?? null;
   return (
-    <div className={`rounded-lg border border-border bg-background p-4 ring-1 ${s.ringClass}`}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={`w-full text-left rounded-lg border border-border bg-background p-4 ring-1 ${s.ringClass} transition-all hover:shadow-md hover:border-primary/40 hover:-translate-y-0.5 cursor-pointer`}
+    >
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
           <p className="font-semibold text-foreground text-sm leading-tight">{f.family}</p>
@@ -268,6 +281,6 @@ function FamilyCard({ f }: { f: PatentFamily }) {
       <p className="text-[11px] text-muted-foreground">
         {Math.round((f.recent / Math.max(f.total, 1)) * 100)}% of filings in the last 5 years
       </p>
-    </div>
+    </button>
   );
 }
