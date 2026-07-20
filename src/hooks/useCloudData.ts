@@ -209,6 +209,9 @@ export function usePublicationsWithTags(limit = 400) {
       return (data ?? []) as Publication[];
     },
   });
+}
+
+
 
 /* ---------- pilots ---------- */
 export function usePilots() {
