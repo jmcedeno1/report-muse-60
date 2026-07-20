@@ -38,6 +38,31 @@ export function ScientificPublicationsSection() {
   const topCountries = usePublicationsTopCountries(8);
   const themes = usePublicationsThemes(8);
   const topCited = usePublicationsTop(15);
+  const tagged = usePublicationsWithTags(400);
+
+  const topByTopic = useMemo(() => {
+    const rows = tagged.data ?? [];
+    const byTag = new Map<string, typeof rows>();
+    for (const p of rows) {
+      for (const t of p.taxonomy_tags ?? []) {
+        if (!t) continue;
+        const arr = byTag.get(t) ?? [];
+        arr.push(p);
+        byTag.set(t, arr);
+      }
+    }
+    return [...byTag.entries()]
+      .map(([tag, papers]) => ({
+        tag,
+        total: papers.length,
+        papers: papers
+          .slice()
+          .sort((a, b) => (b.citations ?? 0) - (a.citations ?? 0))
+          .slice(0, 3),
+      }))
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 6);
+  }, [tagged.data]);
 
   const total = counts.data?.publications ?? 0;
   const years = byYear.data ?? [];
