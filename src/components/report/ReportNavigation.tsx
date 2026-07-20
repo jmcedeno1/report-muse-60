@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { sections } from "@/data/reportData";
-import { 
-  FileText, Zap, Cpu, TrendingUp, MapPin, 
-  Scale, Leaf, AlertTriangle, BookOpen, Menu, X, Shield 
+import {
+  FileText, Zap, Cpu, TrendingUp, MapPin,
+  Scale, Leaf, AlertTriangle, BookOpen, Menu, X, Shield, Newspaper,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
