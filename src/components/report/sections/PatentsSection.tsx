@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Shield, TrendingUp, FileText, Globe, Layers, BarChart3, Loader2, Database, Activity, Sparkles, Waves, MinusCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +9,7 @@ import {
   usePatentsByYear, usePatentsTopOrgs, usePatentsTopCountries, usePatentsThemes, useCorpusCounts,
   usePatentFamilies, type PatentFamily,
 } from "@/hooks/useCloudData";
+import { PatentFamilyDetailDialog } from "@/components/report/PatentFamilyDetailDialog";
 
 const CHART_COLORS = [
   "hsl(232, 32%, 38%)",
