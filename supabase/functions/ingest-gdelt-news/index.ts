@@ -13,8 +13,7 @@ const CLOUD_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const cloud = createClient(CLOUD_URL, SERVICE_KEY, { auth: { persistSession: false } });
 
-const DEFAULT_QUERY =
-  '("vehicle-to-grid" OR "V2G" OR "bidirectional charging" OR "V2H" OR "V2X charging")';
+const DEFAULT_QUERY = '"vehicle-to-grid"';
 const GDELT = "https://api.gdeltproject.org/api/v2/doc/doc";
 
 async function sha1(input: string): Promise<string> {
