@@ -52,7 +52,9 @@ Deno.serve(async (req) => {
       sort: "DateDesc",
     });
 
-    const res = await fetch(`${GDELT}?${params.toString()}`);
+    const res = await fetch(`${GDELT}?${params.toString()}`, {
+      headers: { "User-Agent": "LovableReport/1.0 (research)" },
+    });
     if (!res.ok) {
       const txt = await res.text();
       return new Response(
