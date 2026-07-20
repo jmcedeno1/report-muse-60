@@ -169,49 +169,105 @@ export function PatentsSection() {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <Quote className="h-5 w-5 text-primary" /> Most-cited patents in the corpus
+            <Layers className="h-5 w-5 text-primary" /> Patent families by technology
           </CardTitle>
+          <p className="text-sm text-muted-foreground pt-1">
+            Each patent in the corpus is matched by title and abstract to one or more V2G
+            technology families. Maturity compares the annual filing rate over the last five
+            years against the family's historical average.
+          </p>
         </CardHeader>
         <CardContent>
-          {topCited.isLoading ? <LoadingBlock /> : (
-            <div className="rounded-lg border border-border overflow-hidden">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[70px]">Year</TableHead>
-                    <TableHead>Title</TableHead>
-                    <TableHead className="w-[180px]">Assignee</TableHead>
-                    <TableHead className="w-[90px] text-right">Citations</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {(topCited.data ?? []).map((p) => (
-                    <TableRow key={p.id}>
-                      <TableCell className="text-muted-foreground">{p.year ?? "—"}</TableCell>
-                      <TableCell className="text-sm">
-                        {p.url ? (
-                          <a href={p.url} target="_blank" rel="noopener noreferrer" className="hover:underline inline-flex items-center gap-1">
-                            {p.title ?? p.uid}
-                            <ExternalLink className="h-3 w-3 shrink-0 opacity-60" />
-                          </a>
-                        ) : (
-                          p.title ?? p.uid
-                        )}
-                      </TableCell>
-                      <TableCell className="text-xs text-muted-foreground">
-                        {(p.orgs ?? []).slice(0, 2).join(", ") || "—"}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Badge variant="secondary">{p.citations ?? 0}</Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+          {families.isLoading ? <LoadingBlock /> : (
+            <>
+              <div className="flex flex-wrap gap-3 mb-6 text-xs">
+                <MaturityLegend />
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                {(families.data ?? []).map((f) => (
+                  <FamilyCard key={f.family} f={f} />
+                ))}
+              </div>
+            </>
           )}
         </CardContent>
       </Card>
     </section>
+  );
+}
+
+const MATURITY_STYLES: Record<
+  PatentFamily["maturity"],
+  { label: string; icon: typeof Activity; badgeClass: string; ringClass: string; description: string }
+> = {
+  Growing:   { label: "Growing",   icon: TrendingUp,   badgeClass: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30", ringClass: "ring-emerald-500/20", description: "Filing rate has accelerated 2× or more above the historical average." },
+  Active:    { label: "Active",    icon: Activity,     badgeClass: "bg-primary/15 text-primary border-primary/30",                                     ringClass: "ring-primary/20",     description: "Filing rate is close to the historical average — steady development." },
+  Saturated: { label: "Saturated", icon: MinusCircle,  badgeClass: "bg-muted text-muted-foreground border-border",                                     ringClass: "ring-border",         description: "Filing rate has slowed to below 70% of the historical average." },
+  Emerging:  { label: "Emerging",  icon: Sparkles,     badgeClass: "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30",           ringClass: "ring-amber-500/20",   description: "Small but recent corpus — an early-stage family to monitor." },
+};
+
+function MaturityLegend() {
+  return (
+    <>
+      {(Object.keys(MATURITY_STYLES) as PatentFamily["maturity"][]).map((k) => {
+        const s = MATURITY_STYLES[k];
+        const Icon = s.icon;
+        return (
+          <span key={k} className={`inline-flex items-center gap-1.5 rounded-md border px-2 py-1 ${s.badgeClass}`}>
+            <Icon className="h-3 w-3" /> {s.label}
+          </span>
+        );
+      })}
+    </>
+  );
+}
+
+function FamilyCard({ f }: { f: PatentFamily }) {
+  const s = MATURITY_STYLES[f.maturity];
+  const Icon = s.icon;
+  const momentum = f.momentum ?? null;
+  return (
+    <div className={`rounded-lg border border-border bg-background p-4 ring-1 ${s.ringClass}`}>
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <div>
+          <p className="font-semibold text-foreground text-sm leading-tight">{f.family}</p>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            {f.first_year}–{f.last_year}
+          </p>
+        </div>
+        <span className={`inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium ${s.badgeClass}`}>
+          <Icon className="h-3 w-3" /> {s.label}
+        </span>
+      </div>
+
+      <div className="grid grid-cols-3 gap-2 mb-3">
+        <div className="rounded-md bg-muted/50 p-2 text-center">
+          <p className="text-lg font-bold text-foreground leading-none">{f.total.toLocaleString()}</p>
+          <p className="text-[10px] text-muted-foreground mt-1">Total filings</p>
+        </div>
+        <div className="rounded-md bg-muted/50 p-2 text-center">
+          <p className="text-lg font-bold text-foreground leading-none">{f.recent_annual_rate}</p>
+          <p className="text-[10px] text-muted-foreground mt-1">Recent per year</p>
+        </div>
+        <div className="rounded-md bg-muted/50 p-2 text-center">
+          <p className="text-lg font-bold text-foreground leading-none">
+            {momentum !== null ? `${momentum}×` : "—"}
+          </p>
+          <p className="text-[10px] text-muted-foreground mt-1">Momentum</p>
+        </div>
+      </div>
+
+      <div className="h-1.5 rounded-full bg-muted overflow-hidden mb-2">
+        <div
+          className="h-full bg-primary"
+          style={{
+            width: `${Math.min(100, Math.round((f.recent / Math.max(f.total, 1)) * 100))}%`,
+          }}
+        />
+      </div>
+      <p className="text-[11px] text-muted-foreground">
+        {Math.round((f.recent / Math.max(f.total, 1)) * 100)}% of filings in the last 5 years
+      </p>
+    </div>
   );
 }
