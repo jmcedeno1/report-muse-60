@@ -194,6 +194,22 @@ export function usePublicationsTop(limit = 15) {
   });
 }
 
+export function usePublicationsWithTags(limit = 400) {
+  return useQuery({
+    queryKey: ["cloud", "publications_with_tags", limit],
+    staleTime: STALE,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("publications")
+        .select("id,title,year,doi,url,orgs,citations,source,taxonomy_tags")
+        .not("taxonomy_tags", "is", null)
+        .order("citations", { ascending: false, nullsFirst: false })
+        .limit(limit);
+      if (error) throw error;
+      return (data ?? []) as Publication[];
+    },
+  });
+
 /* ---------- pilots ---------- */
 export function usePilots() {
   return useQuery({
