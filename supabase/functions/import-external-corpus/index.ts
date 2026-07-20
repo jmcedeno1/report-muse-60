@@ -101,7 +101,7 @@ Deno.serve(async (req) => {
       results.publications = await copyTable(
         "publications",
         "uid",
-        "uid,title,year,doi,url,orgs,countries,citations,taxonomy_tags",
+        "uid,title,abstract,year,doi,url,orgs,countries,citations,source,taxonomy_tags",
       );
     }
     if (target === "all" || target === "pilots") {
