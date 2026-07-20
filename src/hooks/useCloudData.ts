@@ -9,6 +9,58 @@ export type Patent = Tables<"patents">;
 export type Publication = Tables<"publications">;
 export type FailureMode = Tables<"failure_modes">;
 export type NewsArticle = Tables<"news">;
+export type MarketStat = Tables<"market_stats">;
+export type Standard = Tables<"standards">;
+export type Regulation = Tables<"regulations">;
+
+/* ---------- market ---------- */
+export function useMarketStats(metric?: string) {
+  return useQuery({
+    queryKey: ["cloud", "market_stats", metric],
+    staleTime: 5 * 60 * 1000,
+    queryFn: async () => {
+      let q = supabase.from("market_stats").select("*").order("year");
+      if (metric) q = q.eq("metric", metric);
+      const { data, error } = await q;
+      if (error) throw error;
+      return (data ?? []) as MarketStat[];
+    },
+  });
+}
+
+/* ---------- standards ---------- */
+export function useStandards() {
+  return useQuery({
+    queryKey: ["cloud", "standards"],
+    staleTime: 5 * 60 * 1000,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("standards")
+        .select("*")
+        .order("organization")
+        .order("code");
+      if (error) throw error;
+      return (data ?? []) as Standard[];
+    },
+  });
+}
+
+/* ---------- regulations ---------- */
+export function useRegulations(limit = 100) {
+  return useQuery({
+    queryKey: ["cloud", "regulations", limit],
+    staleTime: 5 * 60 * 1000,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("regulations")
+        .select("*")
+        .order("publication_date", { ascending: false, nullsFirst: false })
+        .limit(limit);
+      if (error) throw error;
+      return (data ?? []) as Regulation[];
+    },
+  });
+}
 
 const STALE = 5 * 60 * 1000;
 
