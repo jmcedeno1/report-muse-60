@@ -448,11 +448,13 @@ export type Database = {
         Row: {
           family: string | null
           first_year: number | null
+          historical_annual_rate: number | null
           last_year: number | null
           maturity: string | null
+          momentum: number | null
           older: number | null
           recent: number | null
-          recent_share: number | null
+          recent_annual_rate: number | null
           total: number | null
         }
         Relationships: []
