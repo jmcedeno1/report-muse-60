@@ -91,13 +91,25 @@ Deno.serve(async (req) => {
     const results: Record<string, number> = {};
 
     if (target === "all" || target === "patents") {
-      results.patents = await copyTable("patents", "uid");
+      results.patents = await copyTable(
+        "patents",
+        "uid",
+        "uid,title,abstract,year,url,orgs,countries,citations,publication_number,cpc_classes,family_id,taxonomy_tags",
+      );
     }
     if (target === "all" || target === "publications") {
-      results.publications = await copyTable("publications", "uid");
+      results.publications = await copyTable(
+        "publications",
+        "uid",
+        "uid,title,year,doi,url,orgs,countries,citations,taxonomy_tags",
+      );
     }
     if (target === "all" || target === "pilots") {
-      results.pilots = await copyTable("pilots", "evidence_uid");
+      results.pilots = await copyTable(
+        "pilots",
+        "evidence_uid",
+        "name,location,country,latitude,longitude,partners,power_kw,fleet_size,status,v2x_type,start_date,end_date,investment_usd,description,evidence_uid,failure_mode_count,gap_categories",
+      );
     }
     if (target === "all" || target === "failure_modes") {
       results.failure_modes = await copyFailureModes();
