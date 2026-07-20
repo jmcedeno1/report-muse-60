@@ -16,6 +16,7 @@ export const sections: Section[] = [
   { id: "publications", title: "Scientific Publications", icon: "BookOpen" },
   { id: "market", title: "Market & Key Players", icon: "TrendingUp" },
   { id: "pilots", title: "Pilot Projects", icon: "MapPin" },
+  { id: "news", title: "News & Media", icon: "Newspaper" },
   { id: "regulatory", title: "Regulatory Framework", icon: "Scale" },
   { id: "impact", title: "Economic & Environmental Impact", icon: "Leaf" },
   { id: "challenges", title: "Challenges & Future Outlook", icon: "AlertTriangle" },
