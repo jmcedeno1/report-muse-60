@@ -1,14 +1,12 @@
-import { Shield, TrendingUp, FileText, Globe, Layers, BarChart3, ExternalLink, Loader2, Quote, Database } from "lucide-react";
+import { Shield, TrendingUp, FileText, Globe, Layers, BarChart3, Loader2, Database, Activity, Sparkles, Waves, MinusCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
-} from "@/components/ui/table";
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area,
 } from "recharts";
 import {
-  usePatentsByYear, usePatentsTop, usePatentsTopOrgs, usePatentsTopCountries, usePatentsThemes, useCorpusCounts,
+  usePatentsByYear, usePatentsTopOrgs, usePatentsTopCountries, usePatentsThemes, useCorpusCounts,
+  usePatentFamilies, type PatentFamily,
 } from "@/hooks/useCloudData";
 
 const CHART_COLORS = [
