@@ -62,6 +62,23 @@ export function ExecutiveSummarySection() {
           <StatCard key={stat.label} label={stat.label} value={stat.value} />
         ))}
       </div>
+
+      <div className="mt-8 p-5 rounded-xl border border-primary/20 bg-primary/5">
+        <div className="flex items-center gap-2 mb-3">
+          <Database className="h-4 w-4 text-primary" />
+          <p className="text-sm font-semibold text-foreground">Verified evidence base</p>
+          <Badge variant="outline" className="text-xs">live</Badge>
+        </div>
+        <p className="text-xs text-muted-foreground mb-4">
+          Numbers below are read directly from the report's Lovable Cloud database at page load.
+          Every downstream section (Patents, Publications, Pilots, News) aggregates from the same rows.
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {corpusStats.map((s) => (
+            <StatCard key={s.label} label={s.label} value={s.value} />
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
