@@ -66,8 +66,12 @@ async function copyFailureModes() {
       const ev = extIdToEvidence.get(fm.pilot_id);
       const cloudPilotId = ev ? evidenceToCloudId.get(ev) : null;
       if (!cloudPilotId) return null;
-      const { id: _i, created_at: _c, updated_at: _u, pilot_id: _p, ...rest } = fm;
-      return { ...rest, pilot_id: cloudPilotId };
+      return {
+        pilot_id: cloudPilotId,
+        category: fm.category,
+        severity: fm.severity,
+        description: fm.description,
+      };
     })
     .filter(Boolean);
 
