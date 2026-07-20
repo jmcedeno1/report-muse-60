@@ -56,7 +56,9 @@ async function copyFailureModes() {
   );
   const extIdToEvidence = new Map((extPilots ?? []).map((p: any) => [p.id, p.evidence_uid]));
 
-  const { data: fms, error: e3 } = await ext.from("failure_modes").select("*");
+  const { data: fms, error: e3 } = await ext
+    .from("failure_modes")
+    .select("pilot_id,category,severity,description");
   if (e3) throw new Error(`ext failure_modes: ${e3.message}`);
 
   const rows = (fms ?? [])
